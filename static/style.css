@@ -1,0 +1,483 @@
+/* CS2 猜选手 - 样式 (美化版) */
+:root {
+  --green: #22c55e;
+  --green-dark: #15803d;
+  --yellow: #f59e0b;
+  --yellow-dark: #b45309;
+  --gray: #64748b;
+  --gray-dark: #475569;
+  --bg-top: #0b0e17;
+  --bg-bottom: #141a2e;
+  --panel: rgba(23, 29, 47, 0.92);
+  --panel-2: #1c2438;
+  --panel-3: #252f4a;
+  --border: #2e3a5c;
+  --text: #eef1f8;
+  --text-dim: #8b95ad;
+  --accent: #f43f5e;
+  --accent-2: #3b82f6;
+  --gold: #fbbf24;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+  background: linear-gradient(160deg, var(--bg-top) 0%, var(--bg-bottom) 60%, #1a2138 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 背景装饰 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% -10%, rgba(59, 130, 246, 0.12), transparent),
+    radial-gradient(ellipse 50% 35% at 90% 110%, rgba(244, 63, 94, 0.10), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+.screen { position: relative; z-index: 1; }
+
+.hidden { display: none !important; }
+
+/* ---------- 进入/等待界面 ---------- */
+.screen {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lobby-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 36px 44px;
+  width: 430px;
+  max-width: 92vw;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+}
+.lobby-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent-2));
+}
+
+.lobby-card h1 {
+  font-size: 32px;
+  text-align: center;
+  background: linear-gradient(90deg, #fff, var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+}
+.lobby-card h2 { font-size: 22px; text-align: center; }
+.subtitle { color: var(--text-dim); text-align: center; margin: 10px 0 26px; font-size: 13px; }
+
+.lobby-section { margin-bottom: 20px; }
+.lobby-section label {
+  display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 7px;
+  font-weight: 600;
+}
+.lobby-row { display: flex; gap: 8px; }
+
+input, select, button {
+  font-family: inherit; font-size: 14px;
+  padding: 11px 14px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: var(--text);
+  outline: none;
+  transition: all .18s;
+}
+input:focus, select:focus {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+}
+input { flex: 1; }
+
+button {
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--accent-2), #2563eb);
+  border: none;
+  color: #fff;
+  white-space: nowrap;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+}
+button:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4); }
+button:active { transform: translateY(0); }
+button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+button.primary { background: linear-gradient(135deg, var(--accent), #e11d48); box-shadow: 0 4px 14px rgba(244, 63, 94, 0.3); }
+button.primary:hover { box-shadow: 0 6px 20px rgba(244, 63, 94, 0.4); }
+button.ghost { background: transparent; border: 1px solid var(--border); box-shadow: none; color: var(--text-dim); }
+button.ghost:hover { color: var(--text); border-color: var(--text-dim); box-shadow: none; }
+
+.error-msg { color: #f87171; font-size: 13px; min-height: 18px; margin-top: 8px; }
+.tip { color: var(--text-dim); font-size: 12px; margin-top: 8px; }
+
+.code-badge {
+  background: var(--panel-2);
+  border: 1px dashed var(--accent-2);
+  padding: 3px 14px;
+  border-radius: 8px;
+  letter-spacing: 4px;
+  font-size: 22px;
+  color: var(--gold);
+}
+
+.wait-players { margin: 18px 0; }
+.wait-player {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--panel-2);
+  padding: 10px 14px;
+  border-radius: 9px;
+  margin-bottom: 7px;
+  border: 1px solid rgba(46, 58, 92, 0.6);
+}
+.wait-player .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px rgba(34,197,94,.6); }
+.wait-player .host-tag {
+  font-size: 11px; background: var(--yellow); color: #1a1a1a;
+  padding: 2px 7px; border-radius: 4px; font-weight: 700;
+}
+
+/* ---------- 游戏界面 ---------- */
+#screen-game {
+  flex-direction: column;
+  padding: 12px 18px;
+}
+
+.game-top { width: 100%; max-width: 1400px; }
+
+.score-bar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  backdrop-filter: blur(8px);
+}
+.score-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 6px 14px;
+  border-radius: 9px;
+  background: var(--panel-2);
+  border: 1px solid transparent;
+  transition: all .2s;
+}
+.score-item.me {
+  outline: 2px solid var(--accent-2);
+  background: linear-gradient(135deg, rgba(59,130,246,.18), rgba(59,130,246,.05));
+}
+.score-item .name { font-weight: 700; font-size: 14px; }
+.score-item .pts { font-size: 20px; font-weight: 800; color: var(--gold); text-shadow: 0 0 12px rgba(251,191,36,.4); }
+.score-item .target { font-size: 11px; color: var(--text-dim); }
+
+.status-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 9px 16px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: var(--text-dim);
+  backdrop-filter: blur(8px);
+}
+.status-bar .timer {
+  font-size: 22px; font-weight: 800; color: var(--gold);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 1px;
+}
+.status-bar .timer.warn { color: #f87171; animation: pulse 1s infinite; }
+@keyframes pulse { 50% { opacity: .45; } }
+.status-bar .round-info b { color: var(--text); }
+
+/* 中部: 左右面板 */
+.game-middle {
+  flex: 1;
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  gap: 12px;
+  min-height: 0;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  backdrop-filter: blur(8px);
+}
+.panel-self { flex: 1.2; }
+.panel-opp { flex: 1; }
+
+.panel-title {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+  flex-shrink: 0;
+  display: flex; align-items: center; gap: 6px;
+  font-weight: 600;
+}
+.panel-title::before {
+  content: "";
+  width: 3px; height: 14px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--accent-2), transparent);
+}
+
+.panel-empty {
+  color: var(--text-dim);
+  text-align: center;
+  padding: 34px 0;
+  font-size: 13px;
+  flex: 1;
+}
+
+/* 自己的猜测表格 */
+.self-table-wrap { flex: 1; overflow-y: auto; min-height: 0; scrollbar-width: thin; }
+
+.guess-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 4px;
+  font-size: 13px;
+}
+.guess-table th {
+  background: var(--panel-2);
+  padding: 8px 4px;
+  font-size: 12px;
+  color: var(--text-dim);
+  border-bottom: 2px solid var(--border);
+  position: sticky; top: 0;
+  z-index: 5;
+}
+.guess-table td {
+  padding: 5px 4px;
+  text-align: center;
+  white-space: nowrap;
+  background: var(--panel-2);
+  border-top: 1px solid rgba(46,58,92,.4);
+  border-bottom: 1px solid rgba(46,58,92,.4);
+}
+.guess-table td:first-child { border-left: 1px solid rgba(46,58,92,.4); border-radius: 8px 0 0 8px; }
+.guess-table td:last-child { border-right: 1px solid rgba(46,58,92,.4); border-radius: 0 8px 8px 0; }
+.guess-table td.nick {
+  text-align: left;
+  font-weight: 700;
+  padding-left: 10px;
+  font-size: 13px;
+}
+.guess-table tr.correct td { outline: 2px solid var(--green); outline-offset: -1px; }
+
+.cell {
+  border-radius: 5px;
+  padding: 4px 7px;
+  font-size: 12px;
+  display: inline-block;
+  min-width: 52px;
+  max-width: 115px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+.cell .arrow { font-weight: 800; margin-left: 3px; font-size: 13px; }
+
+.cell.green {
+  background: linear-gradient(135deg, var(--green-dark), var(--green));
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(34,197,94,.25);
+}
+.cell.yellow {
+  background: linear-gradient(135deg, var(--yellow-dark), var(--yellow));
+  color: #1a1a1a;
+  box-shadow: 0 2px 8px rgba(245,158,11,.25);
+}
+.cell.gray {
+  background: linear-gradient(135deg, var(--gray-dark), var(--gray));
+  color: #e2e8f0;
+}
+
+/* 对手颜色块 */
+.opp-container {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scrollbar-width: thin;
+}
+.opp-section {
+  background: var(--panel-2);
+  border-radius: 9px;
+  padding: 9px 11px;
+  border: 1px solid rgba(46,58,92,.5);
+}
+.opp-name {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 7px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.opp-name-text { font-weight: 700; color: var(--text); }
+.opp-guess-count { font-size: 11px; color: var(--text-dim); }
+.opp-name .me-tag { font-size: 10px; background: var(--accent-2); padding: 1px 6px; border-radius: 3px; }
+
+.opp-grid { display: flex; flex-direction: column; gap: 4px; }
+/* 7 列: 选手序号 + 6 属性 */
+.opp-row { display: grid; grid-template-columns: 34px repeat(6, 1fr); gap: 4px; align-items: center; }
+.opp-header-row {
+  margin-bottom: 2px;
+}
+.opp-header {
+  font-size: 10.5px;
+  color: var(--text-dim);
+  text-align: center;
+  padding: 3px 0;
+  background: rgba(46, 58, 92, 0.35);
+  border-radius: 4px;
+  font-weight: 600;
+}
+.opp-header:first-child { background: transparent; padding: 0; }
+.opp-num {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 700;
+}
+.opp-block {
+  aspect-ratio: 3.2 / 1;
+  border-radius: 4px;
+  min-height: 18px;
+  transition: transform .1s;
+}
+.opp-block:hover { transform: scale(1.06); }
+.opp-block.green  { background: linear-gradient(135deg, var(--green-dark), var(--green)); box-shadow: 0 2px 6px rgba(34,197,94,.2); }
+.opp-block.yellow { background: linear-gradient(135deg, var(--yellow-dark), var(--yellow)); box-shadow: 0 2px 6px rgba(245,158,11,.2); }
+.opp-block.gray   { background: linear-gradient(135deg, var(--gray-dark), var(--gray)); }
+
+.opp-empty-note { color: var(--text-dim); font-size: 11px; padding: 5px 0; }
+
+/* 回合结束弹窗 */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(5, 8, 16, 0.78);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+  backdrop-filter: blur(4px);
+}
+.overlay-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 30px 38px;
+  max-width: 480px;
+  width: 92%;
+  text-align: center;
+  box-shadow: var(--shadow);
+  animation: pop-in .25s ease;
+}
+@keyframes pop-in {
+  from { transform: scale(.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.overlay-card h2 {
+  font-size: 24px;
+  background: linear-gradient(90deg, var(--gold), #fff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.target-info {
+  margin: 16px 0;
+  background: var(--panel-2);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 14px;
+  text-align: left;
+  line-height: 2;
+  border: 1px solid rgba(46,58,92,.6);
+}
+.target-info b { color: var(--gold); }
+.round-scores { margin: 10px 0; font-size: 14px; color: var(--text-dim); }
+.rematch-row { margin-top: 16px; }
+
+/* 底部输入 */
+.game-bottom {
+  width: 100%;
+  max-width: 1400px;
+  margin-top: 10px;
+  position: relative;
+}
+.guess-input-wrap { display: flex; gap: 10px; }
+.guess-input-wrap input {
+  flex: 1;
+  padding: 13px 16px;
+  font-size: 15px;
+  border-radius: 10px;
+}
+
+.guess-suggest {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0; right: 0;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  max-height: 260px;
+  overflow-y: auto;
+  z-index: 50;
+  box-shadow: 0 -8px 30px rgba(0,0,0,.4);
+}
+.suggest-item {
+  padding: 9px 16px;
+  cursor: pointer;
+  display: flex; justify-content: space-between; gap: 8px;
+  font-size: 14px;
+  transition: background .1s;
+}
+.suggest-item:hover, .suggest-item.active {
+  background: linear-gradient(90deg, rgba(59,130,246,.35), rgba(59,130,246,.12));
+}
+.suggest-item .meta { color: var(--text-dim); font-size: 12px; }
+
+.guess-feedback { min-height: 20px; margin-top: 5px; font-size: 13px; padding-left: 4px; }
+.guess-feedback.ok { color: var(--green); }
+.guess-feedback.err { color: #f87171; }
+
+/* 滚动条 */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--panel-3); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #33415f; }
+
+/* 响应式 */
+@media (max-width: 900px) {
+  .game-middle { flex-direction: column; }
+  .panel-opp { flex: 0.8; }
+  .guess-table { font-size: 12px; }
+  .cell { min-width: 40px; font-size: 11px; }
+  .lobby-card { padding: 26px 24px; }
+}

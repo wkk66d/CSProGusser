@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# 抓取中间产物 (已由 build_player_db.py 汇总进 data/players.json)
+data/players_raw.json
+data/rosters.json
+data/team_ids.json
+data/top20_lists.json
+data/major_champ_ids.json
+
+# 浏览器保存的页面
+player-profile/
+
+# 系统
+Thumbs.db
+.DS_Store

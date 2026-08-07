@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CS2 猜选手</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 进入界面 -->
+<div id="screen-lobby" class="screen">
+  <div class="lobby-card">
+    <h1>🎯 CS2 猜选手</h1>
+    <p class="subtitle">根据反馈提示猜出目标选手，先到 N 分者获胜</p>
+
+    <div class="lobby-section">
+      <label>你的昵称</label>
+      <input id="input-name" type="text" maxlength="12" placeholder="输入昵称" value="">
+    </div>
+
+    <div class="lobby-section">
+      <label>创建房间</label>
+      <div class="lobby-row">
+        <select id="select-score">
+          <option value="1">抢 1</option>
+          <option value="2" selected>抢 2</option>
+          <option value="3">抢 3</option>
+          <option value="4">抢 4</option>
+        </select>
+        <button id="btn-create">创建房间</button>
+      </div>
+    </div>
+
+    <div class="lobby-section">
+      <label>加入房间</label>
+      <div class="lobby-row">
+        <input id="input-code" type="text" maxlength="6" placeholder="房间码" style="width:100px;text-transform:uppercase">
+        <button id="btn-join">加入房间</button>
+      </div>
+    </div>
+
+    <div id="lobby-error" class="error-msg"></div>
+  </div>
+</div>
+
+<!-- 等待界面 -->
+<div id="screen-wait" class="screen hidden">
+  <div class="lobby-card">
+    <h2>房间 <span id="wait-code" class="code-badge"></span></h2>
+    <p class="subtitle">把房间码分享给朋友，<b>至少 2 人</b>即可开始</p>
+
+    <div id="wait-players" class="wait-players"></div>
+
+    <div class="lobby-section">
+      <label>赛制</label>
+      <div class="lobby-row">
+        <select id="select-score-2" class="mode-select">
+          <option value="1">抢 1</option>
+          <option value="2" selected>抢 2</option>
+          <option value="3">抢 3</option>
+          <option value="4">抢 4</option>
+        </select>
+        <button id="btn-start" class="primary">开始游戏</button>
+        <button id="btn-leave" class="ghost">离开</button>
+      </div>
+      <div id="wait-tip" class="tip">只有房主可以开始游戏</div>
+    </div>
+  </div>
+</div>
+
+<!-- 游戏界面 -->
+<div id="screen-game" class="screen hidden">
+  <div class="game-top">
+    <div id="score-bar" class="score-bar"></div>
+    <div id="status-bar" class="status-bar"></div>
+  </div>
+
+  <div class="game-middle">
+    <!-- 左侧: 自己的猜测 -->
+    <div class="panel panel-self">
+      <div class="panel-title">我的猜测</div>
+      <div class="self-table-wrap">
+        <table class="guess-table" id="self-table">
+          <thead>
+            <tr>
+              <th>选手</th><th>国家</th><th>战队</th><th>年龄</th><th>Major</th><th>位置</th><th>最高Top</th>
+            </tr>
+          </thead>
+          <tbody id="self-tbody"></tbody>
+        </table>
+        <div id="self-empty" class="panel-empty">输入昵称开始猜测</div>
+      </div>
+    </div>
+
+    <!-- 右侧: 对手猜测颜色块 -->
+    <div class="panel panel-opp">
+      <div class="panel-title">对手猜测</div>
+      <div id="opp-container" class="opp-container"></div>
+      <div id="opp-empty" class="panel-empty">等待对手出招</div>
+    </div>
+  </div>
+
+  <!-- 回合结束弹窗 -->
+  <div id="round-overlay" class="overlay hidden">
+    <div class="overlay-card">
+      <h2 id="round-result-title"></h2>
+      <div id="round-target-info" class="target-info"></div>
+      <div id="round-scores" class="round-scores"></div>
+      <div id="round-rematch" class="rematch-row hidden">
+        <button id="btn-rematch" class="primary">再来一局</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部输入 -->
+  <div class="game-bottom">
+    <div class="guess-input-wrap">
+      <input id="guess-input" type="text" autocomplete="off" placeholder="输入选手昵称（如 karrigan）" disabled>
+      <button id="btn-guess" disabled>提交猜测</button>
+    </div>
+    <div id="guess-suggest" class="guess-suggest hidden"></div>
+    <div id="guess-feedback" class="guess-feedback"></div>
+  </div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>
