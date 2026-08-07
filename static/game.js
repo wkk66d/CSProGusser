@@ -23,61 +23,46 @@ let gameOver = false;
 const $ = (id) => document.getElementById(id);
 
 // ---------- WebSocket / 轮询降级 ----------
-let polling = false;          // 是否处于 HTTP 轮询模式
+let usingWS = false;          // WebSocket 是否可用
 let pollTimer = null;
-let wsFallbackTimer = null;   // WS 降级延迟确认计时器
 
 function connectWS() {
   const proto = location.protocol === "https:" ? "wss" : "ws";
   ws = new WebSocket(`${proto}://${location.host}/ws`);
   ws.onopen = () => {
-    console.log("WS 已连接");
-    clearTimeout(wsFallbackTimer);
+    console.log("WS 已连接, 切换到实时推送模式");
+    usingWS = true;
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
     hideConnError();
   };
   ws.onmessage = (e) => {
-    try {
-      handleMessage(JSON.parse(e.data));
-    } catch (err) {
-      console.error("消息处理错误:", err);
-    }
-  };
-  ws.onerror = () => {
-    // WS 握手可能因隧道延迟而暂时失败: 延迟 3 秒确认后仍不可用才降级
-    if (!wsFallbackTimer) {
-      wsFallbackTimer = setTimeout(() => {
-        if (!ws || ws.readyState !== WebSocket.OPEN) {
-          switchToPolling();
-        }
-      }, 3000);
-    }
+    try { handleMessage(JSON.parse(e.data)); }
+    catch (err) { console.error("WS 消息解析错误:", err); }
   };
   ws.onclose = () => {
-    if (polling) return;
+    usingWS = false;
     if (roomCode && !gameOver) {
       showConnError("连接已断开, 即将刷新页面...");
-      setTimeout(() => { location.reload(); }, 2000);
-    } else {
-      switchToPolling();
+      setTimeout(() => location.reload(), 2000);
     }
   };
+  // 不设 onerror: onclose 会处理（WS 失败时 usingWS 保持 false, 轮询兜底）
 }
 
-function switchToPolling() {
-  if (polling) return;
-  polling = true;
-  console.warn("WebSocket 不可用, 切换到 HTTP 轮询模式");
+// 启动即开始轮询(HTTP 已验证可靠), WS 在后台尝试连接成功后自动接管
+function startPolling() {
   doPoll();
-  pollTimer = setInterval(doPoll, 600);
+  pollTimer = setInterval(doPoll, 800);
 }
 
 async function doPoll() {
+  if (usingWS) return;  // WS 已接管, 停止轮询
   try {
     const resp = await fetch(`api/poll?sid=${encodeURIComponent(sessionId || "")}`);
     const data = await resp.json();
     (data.messages || []).forEach(m => handleMessage(m));
   } catch (e) {
-    console.error("轮询失败:", e);
+    // 静默, 下次重试
   }
 }
 
@@ -93,17 +78,13 @@ async function sendHTTP(msg) {
     (data.messages || []).forEach(m => handleMessage(m));
     if (data.error) showGuessFeedback(data.error, false);
   } catch (e) {
-    console.error("HTTP 动作失败:", e);
     showConnError("无法连接服务器, 请检查服务是否运行");
   }
 }
 
 function showConnError(text) {
   const el = $("conn-error");
-  if (el) {
-    el.textContent = "⚠ " + text;
-    el.classList.remove("hidden");
-  }
+  if (el) { el.textContent = "⚠ " + text; el.classList.remove("hidden"); }
 }
 function hideConnError() {
   const el = $("conn-error");
@@ -111,17 +92,10 @@ function hideConnError() {
 }
 
 function send(msg) {
-  if (polling) {
-    sendHTTP(msg);
-  } else if (ws && ws.readyState === WebSocket.OPEN) {
+  if (usingWS && ws && ws.readyState === WebSocket.OPEN) {
     ws.send(JSON.stringify(msg));
   } else {
-    // WS 未就绪: 短暂等待后若仍不可用则降级
-    setTimeout(() => {
-      if (polling) sendHTTP(msg);
-      else if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(msg));
-      else { switchToPolling(); sendHTTP(msg); }
-    }, 300);
+    sendHTTP(msg);  // WS 不可用时走 HTTP (已验证可靠)
   }
 }
 
@@ -606,8 +580,9 @@ function submitGuess() {
 
 // ---------- 启动 ----------
 connectWS();
+startPolling();  // 启动即轮询, WS 连接成功后自动停止
 loadPlayerPool();
 bindEvents();
 
 // 心跳
-setInterval(() => send({ type: "ping" }), 30000);
+setInterval(() => { if (usingWS) send({ type: "ping" }); }, 30000);
