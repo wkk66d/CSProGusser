@@ -133,6 +133,13 @@ function handleMessage(msg) {
     case "round_end":
       roundActive = false;
       enableInput(false);
+      // 同步最新分数到本地缓存
+      if (msg.scores) {
+        Object.entries(msg.scores).forEach(([sid, s]) => {
+          const p = playersList.find(pp => pp.session_id === sid);
+          if (p) p.score = s;
+        });
+      }
       showRoundEnd(msg);
       break;
     case "game_over":
@@ -143,7 +150,7 @@ function handleMessage(msg) {
       } else {
         $("round-result-title").textContent = `${msg.winner || "?"} 获胜`;
       }
-      renderScores();
+      renderScores(msg.scores);
       break;
     case "mode_changed":
       targetScore = msg.target_score;
@@ -202,14 +209,16 @@ function renderWaitPlayers() {
 }
 
 // ---------- 游戏界面 ----------
-function renderScores() {
+function renderScores(scoresObj) {
+  // scoresObj: 可选, {session_id: score} — round_end 传来最新分数
   const bar = $("score-bar");
   bar.innerHTML = "";
   playersList.forEach(p => {
+    const s = (scoresObj && scoresObj[p.session_id] != null) ? scoresObj[p.session_id] : p.score;
     const div = document.createElement("div");
     div.className = "score-item" + (p.session_id === sessionId ? " me" : "");
     div.innerHTML = `<span class="name">${esc(p.name)}</span>` +
-      `<span class="pts">${p.score}</span>` +
+      `<span class="pts">${s}</span>` +
       `<span class="target">/${targetScore}</span>`;
     bar.appendChild(div);
   });
@@ -453,7 +462,7 @@ function showRoundEnd(msg) {
     })
     .join(" | ");
   $("round-scores").textContent = "比分 " + scores;
-  renderScores();
+  renderScores(msg.scores); // 传入最新比分
   $("round-overlay").classList.remove("hidden");
 }
 
