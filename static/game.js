@@ -25,12 +25,14 @@ const $ = (id) => document.getElementById(id);
 // ---------- WebSocket / 轮询降级 ----------
 let polling = false;          // 是否处于 HTTP 轮询模式
 let pollTimer = null;
+let wsFallbackTimer = null;   // WS 降级延迟确认计时器
 
 function connectWS() {
   const proto = location.protocol === "https:" ? "wss" : "ws";
   ws = new WebSocket(`${proto}://${location.host}/ws`);
   ws.onopen = () => {
     console.log("WS 已连接");
+    clearTimeout(wsFallbackTimer);
     hideConnError();
   };
   ws.onmessage = (e) => {
@@ -41,8 +43,14 @@ function connectWS() {
     }
   };
   ws.onerror = () => {
-    // WS 不可用 -> 自动降级到 HTTP 轮询
-    switchToPolling();
+    // WS 握手可能因隧道延迟而暂时失败: 延迟 3 秒确认后仍不可用才降级
+    if (!wsFallbackTimer) {
+      wsFallbackTimer = setTimeout(() => {
+        if (!ws || ws.readyState !== WebSocket.OPEN) {
+          switchToPolling();
+        }
+      }, 3000);
+    }
   };
   ws.onclose = () => {
     if (polling) return;

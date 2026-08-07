@@ -275,7 +275,10 @@ async def ws_handler(request: web.Request):
 # ---------- HTTP 路由 ----------
 
 async def index_handler(request: web.Request):
-    return web.FileResponse(STATIC / "index.html")
+    resp = web.FileResponse(STATIC / "index.html")
+    # 禁止缓存, 避免部署新版本后浏览器仍使用旧前端
+    resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    return resp
 
 
 async def api_players(request: web.Request):
@@ -345,7 +348,10 @@ async def static_handler(request: web.Request):
     path = STATIC / request.match_info["filename"]
     if not path.is_file():
         raise web.HTTPNotFound()
-    return web.FileResponse(path)
+    resp = web.FileResponse(path)
+    # 前端资源不缓存, 确保始终加载最新版本
+    resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    return resp
 
 
 def make_app() -> web.Application:
