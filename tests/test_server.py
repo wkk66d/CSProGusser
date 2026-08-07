@@ -179,3 +179,76 @@ async def test_http_api(server_url):
             results = await resp.json()
             assert len(results) >= 1
             assert "kar" in results[0]["nickname"].lower()
+
+
+# ---------- HTTP 轮询降级模式测试 ----------
+
+@pytest.mark.asyncio
+async def test_http_polling_flow(server_url):
+    """HTTP 轮询模式完整流程: 创建 → 加入 → 开始 → 猜测 → 猜中"""
+    async with aiohttp.ClientSession() as s1, aiohttp.ClientSession() as s2:
+        # 1. 创建房间 (HTTP)
+        async with s1.post(server_url + "/api/action", json={"type": "create_room", "name": "小明", "target_score": 1}) as resp:
+            data = await resp.json()
+        assert data["error"] is None
+        sid1 = data["session_id"]
+        created = next(m for m in data["messages"] if m["type"] == "room_created")
+        code = created["code"]
+        assert len(code) == 6
+
+        # 2. 加入房间 (HTTP)
+        async with s2.post(server_url + "/api/action", json={"type": "join_room", "code": code, "name": "小红"}) as resp:
+            data2 = await resp.json()
+        sid2 = data2["session_id"]
+        assert any(m["type"] == "joined" for m in data2["messages"])
+        assert any(m["type"] == "state" for m in data2["messages"])
+
+        # 房主轮询应收到 player_joined + state
+        async with s1.get(server_url + f"/api/poll?sid={sid1}") as resp:
+            poll1 = await resp.json()
+        types = [m["type"] for m in poll1["messages"]]
+        assert "player_joined" in types
+        state = next(m for m in poll1["messages"] if m["type"] == "state")
+        assert len(state["state"]["players"]) == 2
+
+        # 3. 开始游戏 (响应内含 game_started + round_start, 已随 api_action 返回)
+        async with s1.post(server_url + "/api/action", json={"type": "start_game", "sid": sid1}) as resp:
+            data3 = await resp.json()
+        t3 = [m["type"] for m in data3["messages"]]
+        assert "game_started" in t3 and "round_start" in t3
+        # 对手侧轮询取消息
+        async with s2.get(server_url + f"/api/poll?sid={sid2}") as resp:
+            p2 = await resp.json()
+        t2 = [m["type"] for m in p2["messages"]]
+        assert "round_start" in t2
+
+        # 4. 获取目标并猜中
+        room = list(server.engine.rooms.values())[0]
+        target_id = room.target.id
+        async with s2.post(server_url + "/api/action", json={"type": "guess", "sid": sid2, "player_id": target_id}) as resp:
+            gdata = await resp.json()
+        assert any(m["type"] == "guess_result" and m["correct"] for m in gdata["messages"])
+
+        # 5. 双方轮询应收到 round_end / game_over
+        async with s1.get(server_url + f"/api/poll?sid={sid1}") as resp:
+            p1b = await resp.json()
+        async with s2.get(server_url + f"/api/poll?sid={sid2}") as resp:
+            p2b = await resp.json()
+        t1b = [m["type"] for m in p1b["messages"]]
+        assert "round_end" in t1b
+        # 抢1 -> game_over (可能已在 round_end 后)
+        all1 = t1b
+        if "game_over" not in all1:
+            async with s1.get(server_url + f"/api/poll?sid={sid1}") as resp:
+                p1c = await resp.json()
+            all1 += [m["type"] for m in p1c["messages"]]
+        assert "game_over" in all1, f"未收到 game_over: {all1}"
+
+
+@pytest.mark.asyncio
+async def test_http_polling_join_error(server_url):
+    """HTTP 模式加入不存在的房间应返回错误"""
+    async with aiohttp.ClientSession() as s:
+        async with s.post(server_url + "/api/action", json={"type": "join_room", "code": "ZZZZZZ", "name": "路人"}) as resp:
+            data = await resp.json()
+        assert "房间不存在" in (data.get("error") or "")

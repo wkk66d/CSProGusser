@@ -23,6 +23,8 @@ engine = GameEngine()
 
 # session_id -> WebSocket
 connections: dict[str, web.WebSocketResponse] = {}
+# HTTP 轮询模式: session_id -> 待取消息队列
+poll_queues: dict[str, list] = {}
 # 后台任务
 timer_tasks: dict[str, asyncio.Task] = {}
 
@@ -38,6 +40,10 @@ def ws_of(sid: str):
 
 
 async def send(sid: str, msg: dict):
+    """发送消息: WS 模式直接推送, HTTP 轮询模式进队列"""
+    if sid in poll_queues:
+        poll_queues[sid].append(msg)
+        return
     ws = connections.get(sid)
     if ws and not ws.closed:
         try:
@@ -134,7 +140,10 @@ async def handle_message(ws: web.WebSocketResponse, conn_state: dict, data: dict
         target_score = int(data.get("target_score", 2))
         room, sid = engine.create_room(name, target_score)
         conn_state["sid"] = sid
-        connections[sid] = ws
+        if ws:
+            connections[sid] = ws
+        else:
+            poll_queues[sid] = []   # HTTP 模式注册轮询队列
         await send(sid, {"type": "room_created", "code": room.code, "session_id": sid})
         await send(sid, {"type": "state", "state": room_public(room, sid)})
         return
@@ -144,10 +153,16 @@ async def handle_message(ws: web.WebSocketResponse, conn_state: dict, data: dict
         name = data.get("name", "玩家")
         room, sid, err = engine.join_room(code, name)
         if err:
-            await ws.send_json({"type": "error", "message": err})
+            if ws:
+                await ws.send_json({"type": "error", "message": err})
+            else:
+                conn_state["_error"] = err
             return
         conn_state["sid"] = sid
-        connections[sid] = ws
+        if ws:
+            connections[sid] = ws
+        else:
+            poll_queues[sid] = []
         await send(sid, {"type": "joined", "code": room.code, "session_id": sid})
         await broadcast(room, {"type": "player_joined",
                                "player": {"session_id": sid, "name": room.players[sid].name}})
@@ -281,6 +296,46 @@ async def api_health(request: web.Request):
     })
 
 
+async def api_action(request: web.Request):
+    """HTTP 动作端点 (WS 不可用时的降级方案)
+    body: {type: ..., ..., sid: 已有会话ID 或 ""}
+    返回: {session_id, messages: [服务器消息...]}
+    """
+    try:
+        data = await request.json()
+    except Exception:
+        return web.json_response({"error": "请求格式错误"}, status=400)
+    sid = str(data.pop("sid", ""))
+    conn_state = {"sid": sid}
+    # 若该 sid 尚无轮询队列, 建立 (用于接收推送消息)
+    if conn_state["sid"] and conn_state["sid"] not in poll_queues:
+        poll_queues[conn_state["sid"]] = []
+    try:
+        await handle_message(None, conn_state, data)
+    except Exception as e:
+        log.error(f"HTTP 动作异常: {e}")
+        return web.json_response({"error": str(e)}, status=500)
+    err = conn_state.pop("_error", None)
+    new_sid = conn_state["sid"]
+    if new_sid and new_sid not in poll_queues:
+        poll_queues[new_sid] = []
+    # 取出该会话积压的消息
+    messages = poll_queues.get(new_sid, [])
+    poll_queues[new_sid] = []
+    return web.json_response({"session_id": new_sid, "messages": messages, "error": err})
+
+
+async def api_poll(request: web.Request):
+    """轮询端点: 取出该会话积压的消息"""
+    sid = request.query.get("sid", "")
+    if sid in poll_queues:
+        messages = poll_queues[sid]
+        poll_queues[sid] = []
+    else:
+        messages = []
+    return web.json_response({"messages": messages})
+
+
 async def api_search(request: web.Request):
     q = request.query.get("q", "")
     return web.json_response(engine.search_players(q))
@@ -299,6 +354,8 @@ def make_app() -> web.Application:
     app.router.add_get("/api/players", api_players)
     app.router.add_get("/api/search", api_search)
     app.router.add_get("/api/health", api_health)
+    app.router.add_post("/api/action", api_action)
+    app.router.add_get("/api/poll", api_poll)
     app.router.add_get("/ws", ws_handler)
     app.router.add_get("/{filename}", static_handler)
     return app

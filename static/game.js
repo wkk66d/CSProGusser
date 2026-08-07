@@ -22,7 +22,10 @@ let gameOver = false;
 // ---------- DOM ----------
 const $ = (id) => document.getElementById(id);
 
-// ---------- WebSocket ----------
+// ---------- WebSocket / 轮询降级 ----------
+let polling = false;          // 是否处于 HTTP 轮询模式
+let pollTimer = null;
+
 function connectWS() {
   const proto = location.protocol === "https:" ? "wss" : "ws";
   ws = new WebSocket(`${proto}://${location.host}/ws`);
@@ -38,14 +41,53 @@ function connectWS() {
     }
   };
   ws.onerror = () => {
-    showConnError("无法连接服务器 (WebSocket 错误)");
+    // WS 不可用 -> 自动降级到 HTTP 轮询
+    switchToPolling();
   };
   ws.onclose = () => {
+    if (polling) return;
     if (roomCode && !gameOver) {
       showConnError("连接已断开, 即将刷新页面...");
       setTimeout(() => { location.reload(); }, 2000);
+    } else {
+      switchToPolling();
     }
   };
+}
+
+function switchToPolling() {
+  if (polling) return;
+  polling = true;
+  console.warn("WebSocket 不可用, 切换到 HTTP 轮询模式");
+  doPoll();
+  pollTimer = setInterval(doPoll, 600);
+}
+
+async function doPoll() {
+  try {
+    const resp = await fetch(`api/poll?sid=${encodeURIComponent(sessionId || "")}`);
+    const data = await resp.json();
+    (data.messages || []).forEach(m => handleMessage(m));
+  } catch (e) {
+    console.error("轮询失败:", e);
+  }
+}
+
+async function sendHTTP(msg) {
+  try {
+    const resp = await fetch("api/action", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...msg, sid: sessionId || "" }),
+    });
+    const data = await resp.json();
+    if (data.session_id) sessionId = data.session_id;
+    (data.messages || []).forEach(m => handleMessage(m));
+    if (data.error) showGuessFeedback(data.error, false);
+  } catch (e) {
+    console.error("HTTP 动作失败:", e);
+    showConnError("无法连接服务器, 请检查服务是否运行");
+  }
 }
 
 function showConnError(text) {
@@ -61,11 +103,17 @@ function hideConnError() {
 }
 
 function send(msg) {
-  if (ws && ws.readyState === WebSocket.OPEN) {
+  if (polling) {
+    sendHTTP(msg);
+  } else if (ws && ws.readyState === WebSocket.OPEN) {
     ws.send(JSON.stringify(msg));
   } else {
-    showConnError("未连接到服务器, 请检查服务是否运行");
-    console.error("WS 未连接, 消息丢弃:", msg);
+    // WS 未就绪: 短暂等待后若仍不可用则降级
+    setTimeout(() => {
+      if (polling) sendHTTP(msg);
+      else if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(msg));
+      else { switchToPolling(); sendHTTP(msg); }
+    }, 300);
   }
 }
 
