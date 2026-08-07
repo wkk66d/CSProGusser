@@ -379,5 +379,4 @@ async def cleanup_loop():
 if __name__ == "__main__":
     log.info(f"启动服务器: http://localhost:{PORT} (选手池 {len(engine.pool)} 人)")
     app = make_app()
-    app.on_startup.append(lambda app: asyncio.create_task(cleanup_loop()))
     web.run_app(app, host=HOST, port=PORT)
