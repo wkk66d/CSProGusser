@@ -227,6 +227,7 @@ async def handle_message(ws: web.WebSocketResponse, conn_state: dict, data: dict
 async def ws_handler(request: web.Request):
     ws = web.WebSocketResponse(heartbeat=60)
     await ws.prepare(request)
+    log.info(f"WS 连接建立: {request.remote}")
     conn_state = {"sid": ""}  # 连接状态, 由 handle_message 更新
 
     async for msg in ws:
@@ -242,6 +243,7 @@ async def ws_handler(request: web.Request):
 
     # 断开处理
     sid = conn_state["sid"]
+    log.info(f"WS 连接断开: {request.remote} sid={sid or '无'}")
     if sid:
         room = engine.get_room_by_session(sid)
         connections.pop(sid, None)
@@ -270,6 +272,15 @@ async def api_players(request: web.Request):
     return web.json_response(players)
 
 
+async def api_health(request: web.Request):
+    """健康检查 (排查部署问题)"""
+    return web.json_response({
+        "status": "ok",
+        "players": len(engine.pool),
+        "rooms": len(engine.rooms),
+    })
+
+
 async def api_search(request: web.Request):
     q = request.query.get("q", "")
     return web.json_response(engine.search_players(q))
@@ -287,6 +298,7 @@ def make_app() -> web.Application:
     app.router.add_get("/", index_handler)
     app.router.add_get("/api/players", api_players)
     app.router.add_get("/api/search", api_search)
+    app.router.add_get("/api/health", api_health)
     app.router.add_get("/ws", ws_handler)
     app.router.add_get("/{filename}", static_handler)
     return app

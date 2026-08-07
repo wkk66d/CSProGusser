@@ -26,17 +26,47 @@ const $ = (id) => document.getElementById(id);
 function connectWS() {
   const proto = location.protocol === "https:" ? "wss" : "ws";
   ws = new WebSocket(`${proto}://${location.host}/ws`);
-  ws.onopen = () => { console.log("WS 已连接"); };
-  ws.onmessage = (e) => handleMessage(JSON.parse(e.data));
+  ws.onopen = () => {
+    console.log("WS 已连接");
+    hideConnError();
+  };
+  ws.onmessage = (e) => {
+    try {
+      handleMessage(JSON.parse(e.data));
+    } catch (err) {
+      console.error("消息处理错误:", err);
+    }
+  };
+  ws.onerror = () => {
+    showConnError("无法连接服务器 (WebSocket 错误)");
+  };
   ws.onclose = () => {
     if (roomCode && !gameOver) {
-      setTimeout(() => { location.reload(); }, 1500);
+      showConnError("连接已断开, 即将刷新页面...");
+      setTimeout(() => { location.reload(); }, 2000);
     }
   };
 }
 
+function showConnError(text) {
+  const el = $("conn-error");
+  if (el) {
+    el.textContent = "⚠ " + text;
+    el.classList.remove("hidden");
+  }
+}
+function hideConnError() {
+  const el = $("conn-error");
+  if (el) el.classList.add("hidden");
+}
+
 function send(msg) {
-  if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(msg));
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify(msg));
+  } else {
+    showConnError("未连接到服务器, 请检查服务是否运行");
+    console.error("WS 未连接, 消息丢弃:", msg);
+  }
 }
 
 // ---------- 消息处理 ----------
@@ -332,7 +362,8 @@ let suggestIndex = -1;      // 当前高亮项
 
 async function loadPlayerPool() {
   try {
-    const resp = await fetch("/api/players");
+    // 相对路径, 兼容子路径部署 (如 nginx 反代到 /csprog/)
+    const resp = await fetch("api/players");
     playerPool = await resp.json();
   } catch (e) {
     console.error("加载选手池失败", e);
@@ -432,6 +463,13 @@ function esc(s) {
 
 // ---------- 事件绑定 ----------
 function bindEvents() {
+  // 防御: 确保所有元素存在 (避免单个缺失导致全部按钮失效)
+  const required = ["btn-create", "btn-join", "input-code", "input-name",
+    "btn-start", "btn-leave", "select-score-2", "btn-rematch", "guess-input", "btn-guess"];
+  for (const id of required) {
+    if (!$(id)) console.error(`页面缺少元素 #${id}`);
+  }
+
   // 大厅
   $("btn-create").onclick = () => {
     const name = $("input-name").value.trim();
