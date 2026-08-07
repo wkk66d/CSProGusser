@@ -22,52 +22,26 @@ let gameOver = false;
 // ---------- DOM ----------
 const $ = (id) => document.getElementById(id);
 
-// ---------- WebSocket / 轮询降级 ----------
-let usingWS = false;          // WebSocket 是否可用
+// ---------- 通信层 (HTTP 轮询) ----------
+// cloudflared 隧道对 WebSocket 的支持不稳定: WS 握手能通过但数据帧可能被丢弃。
+// 因此全部使用纯 HTTP 通信, 发送用 POST /api/action, 接收用 GET /api/poll。
 let pollTimer = null;
 
-function connectWS() {
-  const proto = location.protocol === "https:" ? "wss" : "ws";
-  ws = new WebSocket(`${proto}://${location.host}/ws`);
-  ws.onopen = () => {
-    console.log("WS 已连接, 切换到实时推送模式");
-    usingWS = true;
-    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
-    hideConnError();
-  };
-  ws.onmessage = (e) => {
-    try { handleMessage(JSON.parse(e.data)); }
-    catch (err) { console.error("WS 消息解析错误:", err); }
-  };
-  ws.onclose = () => {
-    usingWS = false;
-    if (roomCode && !gameOver) {
-      showConnError("连接已断开, 即将刷新页面...");
-      setTimeout(() => location.reload(), 2000);
-    }
-  };
-  // 不设 onerror: onclose 会处理（WS 失败时 usingWS 保持 false, 轮询兜底）
-}
-
-// 启动即开始轮询(HTTP 已验证可靠), WS 在后台尝试连接成功后自动接管
 function startPolling() {
   doPoll();
-  pollTimer = setInterval(doPoll, 800);
+  pollTimer = setInterval(doPoll, 600);
 }
 
 async function doPoll() {
-  if (usingWS) return;  // WS 已接管, 停止轮询
   try {
     const resp = await fetch(`api/poll?sid=${encodeURIComponent(sessionId || "")}`);
     const data = await resp.json();
     (data.messages || []).forEach(m => handleMessage(m));
-  } catch (e) {
-    // 静默, 下次重试
-  }
+  } catch (e) { /* 静默, 下次重试 */ }
 }
 
 async function sendHTTP(msg) {
-  console.log("[CSG] HTTP 发送:", msg.type);
+  console.log("👉 发送:", msg.type);  // 诊断日志
   try {
     const resp = await fetch("api/action", {
       method: "POST",
@@ -75,15 +49,12 @@ async function sendHTTP(msg) {
       body: JSON.stringify({ ...msg, sid: sessionId || "" }),
     });
     const data = await resp.json();
-    console.log("[CSG] HTTP 响应:", data.session_id ? "sid=" + data.session_id.slice(0,10) : "", "消息数:", (data.messages||[]).length, "错误:", data.error||"无");
+    console.log("👈 收到响应:", {sid: data.session_id, msgs: data.messages?.length, err: data.error});  // 诊断日志
     if (data.session_id) sessionId = data.session_id;
-    (data.messages || []).forEach(m => {
-      console.log("[CSG] 处理消息:", m.type);
-      handleMessage(m);
-    });
+    (data.messages || []).forEach(m => handleMessage(m));
     if (data.error) showGuessFeedback(data.error, false);
   } catch (e) {
-    console.error("[CSG] HTTP 请求失败:", e.message);
+    console.error("HTTP 动作失败:", e);
     showConnError("无法连接服务器, 请检查服务是否运行");
   }
 }
@@ -98,18 +69,11 @@ function hideConnError() {
 }
 
 function send(msg) {
-  console.log("[CSG] send(", msg.type, "), usingWS:", usingWS, "ws状态:", ws ? ws.readyState : "null");
-  if (usingWS && ws && ws.readyState === WebSocket.OPEN) {
-    ws.send(JSON.stringify(msg));
-  } else {
-    sendHTTP(msg);
-  }
+  sendHTTP(msg);
 }
 
 // ---------- 消息处理 ----------
 function handleMessage(msg) {
-  const ignoreTypes = ["timer", "pong"];
-  if (!ignoreTypes.includes(msg.type)) console.log("[CSG] 收到:", msg.type, msg.code ? "房间:"+msg.code : "");
   switch (msg.type) {
     case "room_created":
       sessionId = msg.session_id;
@@ -511,31 +475,20 @@ function bindEvents() {
 
   // 大厅
   $("btn-create").onclick = () => {
-    console.log("[CSG] 点击创建房间");
+    console.log("🖱️ 点击创建房间");  // 诊断日志
     const name = $("input-name").value.trim();
-    if (!name) { $("lobby-error").textContent = "请输入昵称"; console.log("[CSG] 昵称为空, 拒绝"); return; }
+    if (!name) { $("lobby-error").textContent = "请输入昵称"; return; }
     myName = name;
-    $("lobby-error").textContent = "";
-    $("btn-create").textContent = "创建中...";
-    $("btn-create").disabled = true;
-    console.log("[CSG] 发送 create_room, 昵称:", name);
     send({ type: "create_room", name, target_score: parseInt($("select-score").value) });
-    // 3秒后恢复按钮(防止永久禁用)
-    setTimeout(() => { $("btn-create").textContent = "创建房间"; $("btn-create").disabled = false; }, 3000);
   };
   $("btn-join").onclick = () => {
-    console.log("[CSG] 点击加入房间");
+    console.log("🖱️ 点击加入房间");  // 诊断日志
     const name = $("input-name").value.trim();
     const code = $("input-code").value.trim().toUpperCase();
     if (!name) { $("lobby-error").textContent = "请输入昵称"; return; }
     if (!code) { $("lobby-error").textContent = "请输入房间码"; return; }
     myName = name;
-    $("lobby-error").textContent = "";
-    $("btn-join").textContent = "加入中...";
-    $("btn-join").disabled = true;
-    console.log("[CSG] 发送 join_room, 昵称:", name, "房间:", code);
     send({ type: "join_room", code, name });
-    setTimeout(() => { $("btn-join").textContent = "加入房间"; $("btn-join").disabled = false; }, 3000);
   };
   $("input-code").onkeydown = (e) => { if (e.key === "Enter") $("btn-join").click(); };
   $("input-name").onkeydown = (e) => { if (e.key === "Enter") $("btn-create").click(); };
@@ -601,17 +554,6 @@ function submitGuess() {
 }
 
 // ---------- 启动 ----------
-console.log("[CSG] 页面启动, 初始化中...");
-try {
-  connectWS();
-  startPolling();
-  loadPlayerPool();
-  bindEvents();
-  console.log("[CSG] 初始化完成, 按钮已绑定, 轮询已启动");
-} catch (e) {
-  console.error("[CSG] 初始化崩溃:", e);
-  document.body.innerHTML += `<div style='position:fixed;top:0;left:0;right:0;background:red;color:#fff;padding:12px;z-index:9999;text-align:center'>JS 初始化错误: ${e.message} — 请截图发给开发者</div>`;
-}
-
-// 心跳
-setInterval(() => { if (usingWS) send({ type: "ping" }); }, 30000);
+startPolling();   // HTTP 轮询 (cloudflared 隧道中最可靠)
+loadPlayerPool();
+bindEvents();
