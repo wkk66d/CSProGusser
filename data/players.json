@@ -346,6 +346,33 @@
     "is_caster": false
   },
   {
+    "id": "9216",
+    "nickname": "coldzera",
+    "full_name": "Marcelo David",
+    "country": "Brazil",
+    "continent": "南美洲",
+    "team": "自由身",
+    "age": 31,
+    "major_count": 2,
+    "role": "步枪手",
+    "peak_top": 1,
+    "past_teams": [
+      "Fake do Biru",
+      "ODDIK",
+      "RED Canids",
+      "Legacy",
+      "Fake Natty",
+      "00NATION",
+      "Complexity",
+      "FaZe",
+      "MIBR",
+      "SK",
+      "Luminosity",
+      "MAGNA"
+    ],
+    "is_caster": false
+  },
+  {
     "id": "20357",
     "nickname": "d1Ledez",
     "full_name": "Daniil Kustov",
@@ -574,6 +601,23 @@
     "is_caster": false
   },
   {
+    "id": "29",
+    "nickname": "f0rest",
+    "full_name": "Patrik Lindberg",
+    "country": "Sweden",
+    "continent": "欧洲",
+    "team": "自由身",
+    "age": 38,
+    "major_count": 1,
+    "role": "步枪手",
+    "peak_top": 2,
+    "past_teams": [
+      "Dignitas",
+      "Ninjas in Pyjamas"
+    ],
+    "is_caster": false
+  },
+  {
     "id": "2023",
     "nickname": "FalleN",
     "full_name": "Gabriel Toledo",
@@ -685,6 +729,23 @@
     "is_caster": false
   },
   {
+    "id": "39",
+    "nickname": "GeT_RiGhT",
+    "full_name": "Christopher Alesund",
+    "country": "Sweden",
+    "continent": "欧洲",
+    "team": "自由身",
+    "age": 36,
+    "major_count": 1,
+    "role": "步枪手",
+    "peak_top": 1,
+    "past_teams": [
+      "Dignitas",
+      "Ninjas in Pyjamas"
+    ],
+    "is_caster": false
+  },
+  {
     "id": "21816",
     "nickname": "Gizmy",
     "full_name": "Jack von Spreckelsen",
@@ -756,6 +817,32 @@
     "is_caster": false
   },
   {
+    "id": "2757",
+    "nickname": "GuardiaN",
+    "full_name": "Ladislav Kovács",
+    "country": "Slovakia",
+    "continent": "欧洲",
+    "team": "自由身",
+    "age": 35,
+    "major_count": 0,
+    "role": "狙击手",
+    "peak_top": 2,
+    "past_teams": [
+      "BC.Game",
+      "Sampi",
+      "Singularity",
+      "BEZ ZP",
+      "Trident",
+      "Natus Vincere",
+      "FaZe",
+      "Virtus.pro",
+      "TCM-Gaming",
+      "3DMAX",
+      "myDGB.net"
+    ],
+    "is_caster": false
+  },
+  {
     "id": "2154",
     "nickname": "hally",
     "full_name": "Sergey Shavaev",
@@ -798,6 +885,31 @@
       "Budapest Five",
       "DREAM",
       "benched"
+    ],
+    "is_caster": false
+  },
+  {
+    "id": "8528",
+    "nickname": "HObbit",
+    "full_name": "Abay Khassenov",
+    "country": "Kazakhstan",
+    "continent": "CIS",
+    "team": "自由身",
+    "age": 32,
+    "major_count": 1,
+    "role": "步枪手",
+    "peak_top": 5,
+    "past_teams": [
+      "PARIVISION",
+      "1win",
+      "Cloud9",
+      "Players",
+      "Gambit",
+      "Gambit Youngsters",
+      "Winstrike",
+      "HellRaisers",
+      "Tengri",
+      "PARTY"
     ],
     "is_caster": false
   },
@@ -1113,6 +1225,30 @@
       "n!faculty",
       "Playing Ducks",
       "fnatic"
+    ],
+    "is_caster": false
+  },
+  {
+    "id": "7167",
+    "nickname": "kennyS",
+    "full_name": "Kenny Schrub",
+    "country": "France",
+    "continent": "欧洲",
+    "team": "自由身",
+    "age": 31,
+    "major_count": 1,
+    "role": "狙击手",
+    "peak_top": 6,
+    "past_teams": [
+      "Falcons",
+      "G2",
+      "Envy",
+      "Titan",
+      "Clan-Mystik",
+      "Recursive",
+      "WE GOT GAME",
+      "LDLC",
+      "VeryGames"
     ],
     "is_caster": false
   },
@@ -1898,6 +2034,31 @@
     "is_caster": false
   },
   {
+    "id": "885",
+    "nickname": "olofmeister",
+    "full_name": "Olof Kajbjer",
+    "country": "Sweden",
+    "continent": "欧洲",
+    "team": "自由身",
+    "age": 34,
+    "major_count": 2,
+    "role": "步枪手",
+    "peak_top": 1,
+    "past_teams": [
+      "FaZe",
+      "fnatic",
+      "TEAMGLOBAL",
+      "LGB",
+      "Absolute Legends",
+      "H2k",
+      "WahWah",
+      "olofmeister's Team",
+      "Team olofmeister",
+      "boomer demons"
+    ],
+    "is_caster": false
+  },
+  {
     "id": "16947",
     "nickname": "Perfecto",
     "full_name": "Ilya Zalutskiy",
@@ -2376,6 +2537,36 @@
       "No Problem!",
       "Xapso",
       "POPPERS"
+    ],
+    "is_caster": false
+  },
+  {
+    "id": "2553",
+    "nickname": "Snax",
+    "full_name": "Janusz Pogorzelski",
+    "country": "Poland",
+    "continent": "欧洲",
+    "team": "GamerLegion",
+    "age": 33,
+    "major_count": 1,
+    "role": "步枪手",
+    "peak_top": 4,
+    "past_teams": [
+      "GamerLegion",
+      "G2",
+      "Pompa",
+      "Let us cook",
+      "ex-Finest",
+      "MONKE",
+      "Anonymo",
+      "Illuminar",
+      "Virtus.pro",
+      "MOUZ",
+      "AGAiN",
+      "UniversalSoldiers",
+      "ESC",
+      "GF-Gaming",
+      "ENCE"
     ],
     "is_caster": false
   },
