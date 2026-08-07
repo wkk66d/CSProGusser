@@ -173,7 +173,7 @@ async def test_http_api(server_url):
         async with session.get(server_url + "/api/players") as resp:
             assert resp.status == 200
             players = await resp.json()
-            assert len(players) >= 170
+            assert len(players) >= 140
         # 搜索
         async with session.get(server_url + "/api/search?q=kar") as resp:
             results = await resp.json()

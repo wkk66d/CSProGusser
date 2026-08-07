@@ -153,6 +153,21 @@ def match_top20(raw: dict) -> dict:
         result[pid] = best if best else ">20"
     return result
 
+# ---- 知名教练白名单 (zonic/B1ad3 级别) ----
+FAMOUS_COACHES = {
+    "zonic",    # 5x Major 冠军教练 (Astralis ×4 + Falcons ×1)
+    "B1ad3",    # Major 冠军教练 (NaVi Copenhagen 2024)
+    "hally",    # Major 冠军教练 (Spirit Shanghai 2024)
+    "XTQZZZ",   # 2x Major 冠军教练 (Vitality Austin + Budapest 2025)
+    "dastan",   # Major 冠军教练 (Outsiders Rio 2022)
+    "sAw",      # G2 知名教练
+    "sycrone",  # MOUZ 青训体系教练
+    "neo",      # 传奇选手转 Astralis 教练
+    "TaZ",      # 传奇选手转 BC.Game 教练
+    "gla1ve",   # 4x Major 冠军 IGL 转 100T 教练
+    "Xizt",     # 传奇选手转 NiP 教练
+}
+
 def main():
     raw = json.loads((DATA / "players_raw.json").read_text(encoding="utf-8"))
     top20_map = match_top20(raw)
@@ -178,6 +193,9 @@ def main():
         team = id_to_team.get(pid)
         is_coach = pid in coach_ids
         if is_coach:
+            # 仅保留知名教练 (zonic/B1ad3 级别)
+            if nick not in FAMOUS_COACHES:
+                continue
             team = coach_ids[pid]  # 教练的战队 = 执教队伍
         role = "教练" if is_coach else None
         if role is None:

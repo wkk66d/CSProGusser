@@ -20,51 +20,6 @@
     "is_caster": false
   },
   {
-    "id": "334",
-    "nickname": "AdreN",
-    "full_name": "Dauren Kystaubayev",
-    "country": "Kazakhstan",
-    "continent": "CIS",
-    "team": "NOVAQ",
-    "age": 36,
-    "major_count": 1,
-    "role": "步枪手",
-    "peak_top": 17,
-    "past_teams": [
-      "NOVAQ",
-      "K23",
-      "Virtus.pro",
-      "AVANGAR",
-      "FaZe",
-      "Gambit",
-      "HellRaisers",
-      "dAT",
-      "Astana Dragons",
-      "Benched Heroes",
-      "Team AdreN"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "2530",
-    "nickname": "adrrr",
-    "full_name": "Alan Riveros",
-    "country": "Brazil",
-    "continent": "南美洲",
-    "team": "Legacy",
-    "age": 38,
-    "major_count": 0,
-    "role": "教练",
-    "peak_top": ">20",
-    "past_teams": [
-      "Imperial",
-      "INTZ",
-      "TeamOne",
-      "INTZ.Home"
-    ],
-    "is_caster": false
-  },
-  {
     "id": "9816",
     "nickname": "Aleksib",
     "full_name": "Aleksi Virolainen",
@@ -151,24 +106,6 @@
       "IDM",
       "KaBuM.IDM",
       "Hardknocks"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "8975",
-    "nickname": "ash",
-    "full_name": "Ashley Battye",
-    "country": "United Kingdom",
-    "continent": "欧洲",
-    "team": "Aurora",
-    "age": 35,
-    "major_count": 0,
-    "role": "教练",
-    "peak_top": 3,
-    "past_teams": [
-      "XENEX",
-      "GamerLegion",
-      "PerilousRAGE"
     ],
     "is_caster": false
   },
@@ -265,28 +202,6 @@
     "is_caster": false
   },
   {
-    "id": "555",
-    "nickname": "BIT",
-    "full_name": "Bruno Fukuda Lima",
-    "country": "Brazil",
-    "continent": "南美洲",
-    "team": "9z",
-    "age": 36,
-    "major_count": 0,
-    "role": "教练",
-    "peak_top": 5,
-    "past_teams": [
-      "9z",
-      "TeamOne",
-      "Não Tem Como",
-      "g3x",
-      "WinOut",
-      "Keyd Stars",
-      "MIBR"
-    ],
-    "is_caster": false
-  },
-  {
     "id": "20194",
     "nickname": "bLitz",
     "full_name": "Garidmagnai Byambasuren",
@@ -368,39 +283,6 @@
     "is_caster": false
   },
   {
-    "id": "5386",
-    "nickname": "byali",
-    "full_name": "Paweł Bieliński",
-    "country": "Poland",
-    "continent": "欧洲",
-    "team": "自由身",
-    "age": 32,
-    "major_count": 1,
-    "role": "步枪手",
-    "peak_top": 13,
-    "past_teams": [
-      "Let us cook",
-      "Illuminar",
-      "UNGENTIUM",
-      "MONKE",
-      "AzerbejdzanPL",
-      "ex-Izako Boars",
-      "Izako Boars",
-      "StylDunow",
-      "AVEZ",
-      "adwokacik",
-      "Virtus.pro",
-      "AGAiN",
-      "UniversalSoldiers",
-      "ESC",
-      "GF-Gaming",
-      "PGE Turow",
-      "Pompa",
-      "PACT"
-    ],
-    "is_caster": false
-  },
-  {
     "id": "23100",
     "nickname": "C4LLM3SU3",
     "full_name": "Qihao Su",
@@ -415,6 +297,31 @@
       "Lynn Vision",
       "Wildcard",
       "G3"
+    ],
+    "is_caster": false
+  },
+  {
+    "id": "7716",
+    "nickname": "chopper",
+    "full_name": "Leonid Vishnyakov",
+    "country": "Russia",
+    "continent": "CIS",
+    "team": "Spirit",
+    "age": 29,
+    "major_count": 1,
+    "role": "步枪手",
+    "peak_top": ">20",
+    "past_teams": [
+      "Spirit",
+      "Vega Squadron",
+      "ALLIN",
+      "ANOX",
+      "NokSuKao",
+      "FLuffy Gangsters",
+      "Binary Dragons",
+      "Tempest",
+      "Quest",
+      "dope"
     ],
     "is_caster": false
   },
@@ -435,33 +342,6 @@
       "MOUZ NXT",
       "Tricked",
       "AGF"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "9216",
-    "nickname": "coldzera",
-    "full_name": "Marcelo David",
-    "country": "Brazil",
-    "continent": "南美洲",
-    "team": "自由身",
-    "age": 31,
-    "major_count": 2,
-    "role": "步枪手",
-    "peak_top": 1,
-    "past_teams": [
-      "Fake do Biru",
-      "ODDIK",
-      "RED Canids",
-      "Legacy",
-      "Fake Natty",
-      "00NATION",
-      "Complexity",
-      "FaZe",
-      "MIBR",
-      "SK",
-      "Luminosity",
-      "MAGNA"
     ],
     "is_caster": false
   },
@@ -584,58 +464,6 @@
     "is_caster": false
   },
   {
-    "id": "735",
-    "nickname": "Dosia",
-    "full_name": "Mihail Stolyarov",
-    "country": "Russia",
-    "continent": "CIS",
-    "team": "自由身",
-    "age": 38,
-    "major_count": 1,
-    "role": "步枪手",
-    "peak_top": 4,
-    "past_teams": [
-      "xGOD",
-      "Forward",
-      "FreeTON",
-      "Mustang Crew",
-      "OneThree",
-      "Gambit",
-      "HS.GG",
-      "HellRaisers",
-      "Astana Dragons",
-      "Virtus.pro",
-      "RuSh3D",
-      "Russia"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "9819",
-    "nickname": "doto",
-    "full_name": "Joonas Forss",
-    "country": "Finland",
-    "continent": "欧洲",
-    "team": "HEROIC",
-    "age": 30,
-    "major_count": 0,
-    "role": "教练",
-    "peak_top": ">20",
-    "past_teams": [
-      "JANO",
-      "Ambush",
-      "HAVU",
-      "ENCE",
-      "KOVA",
-      "NYYRIKKI",
-      "Conquer",
-      "SJK",
-      "Recursive",
-      "HEROIC Academy"
-    ],
-    "is_caster": false
-  },
-  {
     "id": "15698",
     "nickname": "dumau",
     "full_name": "Eduardo Wolkmer",
@@ -654,6 +482,32 @@
       "Yeah",
       "Imperial",
       "Evidence"
+    ],
+    "is_caster": false
+  },
+  {
+    "id": "7398",
+    "nickname": "dupreeh",
+    "full_name": "Peter Rasmussen",
+    "country": "Denmark",
+    "continent": "欧洲",
+    "team": "自由身",
+    "age": 33,
+    "major_count": 5,
+    "role": "步枪手",
+    "peak_top": 5,
+    "past_teams": [
+      "Falcons",
+      "Preasy",
+      "HEROIC",
+      "Vitality",
+      "Astralis",
+      "?",
+      "TSM",
+      "Dignitas",
+      "über G33KZ",
+      "CPH Wolves",
+      "3DMAX"
     ],
     "is_caster": false
   },
@@ -720,47 +574,6 @@
     "is_caster": false
   },
   {
-    "id": "7264",
-    "nickname": "enkay J",
-    "full_name": "Niclas Krumhorn",
-    "country": "Germany",
-    "continent": "欧洲",
-    "team": "FaZe",
-    "age": 37,
-    "major_count": 0,
-    "role": "教练",
-    "peak_top": ">20",
-    "past_teams": [
-      "Planetkey",
-      "PENTA",
-      "ALTERNATE aTTaX",
-      "Wild Fire",
-      "logiX",
-      "gamed!de",
-      "ENCE",
-      "Entropiq",
-      "Sprout"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "29",
-    "nickname": "f0rest",
-    "full_name": "Patrik Lindberg",
-    "country": "Russia",
-    "continent": "CIS",
-    "team": "自由身",
-    "age": 38,
-    "major_count": 1,
-    "role": "步枪手",
-    "peak_top": 2,
-    "past_teams": [
-      "Dignitas",
-      "Ninjas in Pyjamas"
-    ],
-    "is_caster": false
-  },
-  {
     "id": "2023",
     "nickname": "FalleN",
     "full_name": "Gabriel Toledo",
@@ -807,50 +620,6 @@
     "is_caster": false
   },
   {
-    "id": "8564",
-    "nickname": "fer",
-    "full_name": "Fernando Alvarenga",
-    "country": "Brazil",
-    "continent": "南美洲",
-    "team": "自由身",
-    "age": 34,
-    "major_count": 2,
-    "role": "步枪手",
-    "peak_top": 3,
-    "past_teams": [
-      "Gaimin Gladiators",
-      "O PLANO",
-      "Imperial",
-      "Last Dance",
-      "00NATION",
-      "MIBR",
-      "SK",
-      "Luminosity",
-      "Keyd Stars",
-      "KaBuM",
-      "Brazil"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "1084",
-    "nickname": "Fierce",
-    "full_name": "Artem Ivanov",
-    "country": "Russia",
-    "continent": "CIS",
-    "team": "BetBoom",
-    "age": 36,
-    "major_count": 0,
-    "role": "教练",
-    "peak_top": ">20",
-    "past_teams": [
-      "Unique",
-      "Vega Squadron",
-      "Quantum Bellator"
-    ],
-    "is_caster": false
-  },
-  {
     "id": "12732",
     "nickname": "FL1T",
     "full_name": "Evgenii Lebedev",
@@ -893,107 +662,6 @@
     "is_caster": false
   },
   {
-    "id": "5440",
-    "nickname": "flashie",
-    "full_name": "Viktor Tamás Bea",
-    "country": "Hungary",
-    "continent": "欧洲",
-    "team": "Liquid",
-    "age": 30,
-    "major_count": 0,
-    "role": "教练",
-    "peak_top": ">20",
-    "past_teams": [
-      "Budapest Five",
-      "Salamander",
-      "1998",
-      "GameAgents",
-      "volgare",
-      "Sensei",
-      "iNation",
-      "Escape",
-      "PixelFire",
-      "CSGO.one",
-      "Orgless",
-      "Orbit",
-      "k1ck",
-      "Rock",
-      "TRICKED",
-      "Liquid",
-      "ONYX"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "3055",
-    "nickname": "flusha",
-    "full_name": "Robin Rönnquist",
-    "country": "Sweden",
-    "continent": "欧洲",
-    "team": "自由身",
-    "age": 32,
-    "major_count": 3,
-    "role": "步枪手",
-    "peak_top": 2,
-    "past_teams": [
-      "EYEBALLERS",
-      "Hellslayers",
-      "GORILLAZ",
-      "fnatic",
-      "Cloud9",
-      "GODSENT",
-      "Epsilon",
-      "Western Wolves",
-      "SY&b"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "557",
-    "nickname": "fnx",
-    "full_name": "Lincoln Lau",
-    "country": "Brazil",
-    "continent": "南美洲",
-    "team": "自由身",
-    "age": 36,
-    "major_count": 2,
-    "role": "步枪手",
-    "peak_top": 19,
-    "past_teams": [
-      "O PLANO",
-      "Imperial",
-      "Last Dance",
-      "Paquetá",
-      "RED Canids",
-      "Não Tem Como",
-      "Immortals",
-      "SK",
-      "Luminosity",
-      "Games Academy",
-      "KaBuM"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "7148",
-    "nickname": "friberg",
-    "full_name": "Adam Friberg",
-    "country": "Sweden",
-    "continent": "欧洲",
-    "team": "自由身",
-    "age": 34,
-    "major_count": 1,
-    "role": "步枪手",
-    "peak_top": 11,
-    "past_teams": [
-      "Dignitas",
-      "HEROIC",
-      "OpTic",
-      "Ninjas in Pyjamas"
-    ],
-    "is_caster": false
-  },
-  {
     "id": "9960",
     "nickname": "frozen",
     "full_name": "David Čerňanský",
@@ -1013,23 +681,6 @@
       "warmup",
       "eXtatus",
       "nEophyte"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "39",
-    "nickname": "GeT_RiGhT",
-    "full_name": "Christopher Alesund",
-    "country": "Russia",
-    "continent": "CIS",
-    "team": "自由身",
-    "age": 36,
-    "major_count": 1,
-    "role": "步枪手",
-    "peak_top": 1,
-    "past_teams": [
-      "Dignitas",
-      "Ninjas in Pyjamas"
     ],
     "is_caster": false
   },
@@ -1105,48 +756,6 @@
     "is_caster": false
   },
   {
-    "id": "2757",
-    "nickname": "GuardiaN",
-    "full_name": "Ladislav Kovács",
-    "country": "Slovakia",
-    "continent": "欧洲",
-    "team": "自由身",
-    "age": 35,
-    "major_count": 0,
-    "role": "狙击手",
-    "peak_top": 2,
-    "past_teams": [
-      "BC.Game",
-      "Sampi",
-      "Singularity",
-      "BEZ ZP",
-      "Trident",
-      "Natus Vincere",
-      "FaZe",
-      "Virtus.pro",
-      "TCM-Gaming",
-      "3DMAX",
-      "myDGB.net"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "24028",
-    "nickname": "GUM",
-    "full_name": "Yifei Dai",
-    "country": "Russia",
-    "continent": "CIS",
-    "team": "Lynn Vision",
-    "age": 33,
-    "major_count": 0,
-    "role": "教练",
-    "peak_top": ">20",
-    "past_teams": [
-      "Lynn Vision"
-    ],
-    "is_caster": false
-  },
-  {
     "id": "2154",
     "nickname": "hally",
     "full_name": "Sergey Shavaev",
@@ -1165,27 +774,6 @@
       "Espada",
       "EBOOT",
       "Nostalgie"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "7429",
-    "nickname": "Happy",
-    "full_name": "Vincent Schopenhauer",
-    "country": "France",
-    "continent": "欧洲",
-    "team": "自由身",
-    "age": 34,
-    "major_count": 2,
-    "role": "步枪手",
-    "peak_top": 8,
-    "past_teams": [
-      "LDLC",
-      "Vitality",
-      "Envy",
-      "Recursive",
-      "WE GOT GAME",
-      "eXtensive"
     ],
     "is_caster": false
   },
@@ -1210,31 +798,6 @@
       "Budapest Five",
       "DREAM",
       "benched"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "8528",
-    "nickname": "HObbit",
-    "full_name": "Abay Khassenov",
-    "country": "Kazakhstan",
-    "continent": "CIS",
-    "team": "自由身",
-    "age": 32,
-    "major_count": 1,
-    "role": "步枪手",
-    "peak_top": 5,
-    "past_teams": [
-      "PARIVISION",
-      "1win",
-      "Cloud9",
-      "Players",
-      "Gambit",
-      "Gambit Youngsters",
-      "Winstrike",
-      "HellRaisers",
-      "Tengri",
-      "PARTY"
     ],
     "is_caster": false
   },
@@ -1526,27 +1089,6 @@
     "is_caster": false
   },
   {
-    "id": "3849",
-    "nickname": "JW",
-    "full_name": "Jesper Wecksell",
-    "country": "Sweden",
-    "continent": "欧洲",
-    "team": "EYEBALLERS",
-    "age": 31,
-    "major_count": 3,
-    "role": "狙击手",
-    "peak_top": 5,
-    "past_teams": [
-      "EYEBALLERS",
-      "Hellslayers",
-      "fnatic",
-      "GODSENT",
-      "Epsilon",
-      "gosu"
-    ],
-    "is_caster": false
-  },
-  {
     "id": "429",
     "nickname": "karrigan",
     "full_name": "Finn Andersen",
@@ -1575,54 +1117,6 @@
     "is_caster": false
   },
   {
-    "id": "7167",
-    "nickname": "kennyS",
-    "full_name": "Kenny Schrub",
-    "country": "France",
-    "continent": "欧洲",
-    "team": "自由身",
-    "age": 31,
-    "major_count": 1,
-    "role": "狙击手",
-    "peak_top": 6,
-    "past_teams": [
-      "Falcons",
-      "G2",
-      "Envy",
-      "Titan",
-      "Clan-Mystik",
-      "Recursive",
-      "WE GOT GAME",
-      "LDLC",
-      "VeryGames"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "4959",
-    "nickname": "kioShiMa",
-    "full_name": "Fabien Fiey",
-    "country": "France",
-    "continent": "欧洲",
-    "team": "自由身",
-    "age": 32,
-    "major_count": 2,
-    "role": "步枪手",
-    "peak_top": 19,
-    "past_teams": [
-      "Heretics",
-      "Cloud9",
-      "LeftOut",
-      "Envy",
-      "FaZe",
-      "LDLC",
-      "Epsilon",
-      "Clan-Mystik",
-      "G2"
-    ],
-    "is_caster": false
-  },
-  {
     "id": "23140",
     "nickname": "krazy",
     "full_name": "Adones Nobre",
@@ -1638,26 +1132,6 @@
       "BC.Game",
       "Rhyno",
       "Make Your Destiny"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "7528",
-    "nickname": "KRIMZ",
-    "full_name": "Freddy Johansson",
-    "country": "Sweden",
-    "continent": "欧洲",
-    "team": "EYEBALLERS",
-    "age": 32,
-    "major_count": 2,
-    "role": "步枪手",
-    "peak_top": 7,
-    "past_teams": [
-      "EYEBALLERS",
-      "fnatic",
-      "GODSENT",
-      "TEAMGLOBAL",
-      "LGB"
     ],
     "is_caster": false
   },
@@ -1762,29 +1236,6 @@
     "is_caster": false
   },
   {
-    "id": "4216",
-    "nickname": "LETN1",
-    "full_name": "Nestor Tanić",
-    "country": "Serbia",
-    "continent": "欧洲",
-    "team": "MIBR",
-    "age": 33,
-    "major_count": 0,
-    "role": "教练",
-    "peak_top": ">20",
-    "past_teams": [
-      "c0ntact",
-      "CR4ZY",
-      "Valiance",
-      "Binary Dragons",
-      "iNation",
-      "GamePub",
-      "G2 Ares",
-      "Team olofmeister"
-    ],
-    "is_caster": false
-  },
-  {
     "id": "19310",
     "nickname": "LNZ",
     "full_name": "Linus Holtäng",
@@ -1871,26 +1322,6 @@
       "NAVI Junior",
       "SG.pro",
       "NewBALLS"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "9243",
-    "nickname": "maaRaa",
-    "full_name": "Erdenedalai Bayanbat",
-    "country": "Mongolia",
-    "continent": "亚洲",
-    "team": "The MongolZ",
-    "age": 36,
-    "major_count": 0,
-    "role": "教练",
-    "peak_top": ">20",
-    "past_teams": [
-      "w2c",
-      "Storm Rider",
-      "The MongolZ",
-      "IHC",
-      "Mazaalai"
     ],
     "is_caster": false
   },
@@ -2263,6 +1694,28 @@
     "is_caster": false
   },
   {
+    "id": "16612",
+    "nickname": "n0rb3r7",
+    "full_name": "David Danielyan",
+    "country": "Russia",
+    "continent": "CIS",
+    "team": "HOTU",
+    "age": 25,
+    "major_count": 1,
+    "role": "步枪手",
+    "peak_top": ">20",
+    "past_teams": [
+      "HOTU",
+      "Virtus.pro",
+      "Outsiders",
+      "K23",
+      "Syman",
+      "Winstrike",
+      "WINside"
+    ],
+    "is_caster": false
+  },
+  {
     "id": "22035",
     "nickname": "n0te",
     "full_name": "Roman Hamze",
@@ -2332,34 +1785,6 @@
     "is_caster": false
   },
   {
-    "id": "7168",
-    "nickname": "NBK-",
-    "full_name": "Nathan Schmitt",
-    "country": "France",
-    "continent": "欧洲",
-    "team": "自由身",
-    "age": 32,
-    "major_count": 2,
-    "role": "步枪手",
-    "peak_top": 5,
-    "past_teams": [
-      "GenOne",
-      "Mercenaires",
-      "Revenant",
-      "Falcons",
-      "MOUZ",
-      "OG",
-      "DBL PONEY",
-      "Vitality",
-      "G2",
-      "Envy",
-      "LDLC",
-      "Titan",
-      "VeryGames"
-    ],
-    "is_caster": false
-  },
-  {
     "id": "21972",
     "nickname": "Neityu",
     "full_name": "Ryan Aubry",
@@ -2378,28 +1803,6 @@
       "Nakama",
       "LDLC",
       "GenOne"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "165",
-    "nickname": "NEO",
-    "full_name": "Filip Kubski",
-    "country": "Poland",
-    "continent": "欧洲",
-    "team": "Astralis",
-    "age": 39,
-    "major_count": 1,
-    "role": "教练",
-    "peak_top": 17,
-    "past_teams": [
-      "HONORIS",
-      "ARCY",
-      "FaZe",
-      "Virtus.pro",
-      "AGAiN",
-      "UniversalSoldiers",
-      "ESC"
     ],
     "is_caster": false
   },
@@ -2495,47 +1898,22 @@
     "is_caster": false
   },
   {
-    "id": "885",
-    "nickname": "olofmeister",
-    "full_name": "Olof Kajbjer",
+    "id": "16947",
+    "nickname": "Perfecto",
+    "full_name": "Ilya Zalutskiy",
     "country": "Russia",
     "continent": "CIS",
     "team": "自由身",
-    "age": 34,
-    "major_count": 2,
-    "role": "步枪手",
-    "peak_top": 1,
-    "past_teams": [
-      "FaZe",
-      "fnatic",
-      "TEAMGLOBAL",
-      "LGB",
-      "Absolute Legends",
-      "H2k",
-      "WahWah",
-      "olofmeister's Team",
-      "Team olofmeister",
-      "boomer demons"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "317",
-    "nickname": "pashaBiceps",
-    "full_name": "Jarosław Jarząbkowski",
-    "country": "Poland",
-    "continent": "欧洲",
-    "team": "自由身",
-    "age": 38,
+    "age": 26,
     "major_count": 1,
     "role": "步枪手",
-    "peak_top": 3,
+    "peak_top": ">20",
     "past_teams": [
-      "Youngsters",
       "Virtus.pro",
-      "AGAiN",
-      "UniversalSoldiers",
-      "ESC"
+      "Cloud9",
+      "Natus Vincere",
+      "Syman",
+      "Atlants"
     ],
     "is_caster": false
   },
@@ -2696,24 +2074,6 @@
     "is_caster": false
   },
   {
-    "id": "5738",
-    "nickname": "rikz",
-    "full_name": "Henrique Waku",
-    "country": "Brazil",
-    "continent": "南美洲",
-    "team": "paiN",
-    "age": 35,
-    "major_count": 0,
-    "role": "教练",
-    "peak_top": ">20",
-    "past_teams": [
-      "DETONA",
-      "ProGaming",
-      "paiN"
-    ],
-    "is_caster": false
-  },
-  {
     "id": "11816",
     "nickname": "ropz",
     "full_name": "Robin Kool",
@@ -2728,6 +2088,31 @@
       "Vitality",
       "FaZe",
       "MOUZ"
+    ],
+    "is_caster": false
+  },
+  {
+    "id": "7805",
+    "nickname": "RUSH",
+    "full_name": "William Wierzba",
+    "country": "United States",
+    "continent": "北美洲",
+    "team": "自由身",
+    "age": 32,
+    "major_count": 1,
+    "role": "步枪手",
+    "peak_top": ">20",
+    "past_teams": [
+      "Nouns",
+      "Party Astronauts",
+      "Evil Geniuses",
+      "EG Black",
+      "Complexity",
+      "Cloud9",
+      "OpTic",
+      "Conquest",
+      "Elevate",
+      "MonoManiac"
     ],
     "is_caster": false
   },
@@ -2885,54 +2270,6 @@
     "is_caster": false
   },
   {
-    "id": "1225",
-    "nickname": "shox",
-    "full_name": "Richard Papillon",
-    "country": "France",
-    "continent": "欧洲",
-    "team": "自由身",
-    "age": 34,
-    "major_count": 1,
-    "role": "步枪手",
-    "peak_top": 3,
-    "past_teams": [
-      "Nakama",
-      "Apeks",
-      "Liquid",
-      "Vitality",
-      "G2",
-      "ex-Titan",
-      "Titan",
-      "Envy",
-      "LDLC",
-      "Epsilon",
-      "Clan-Mystik",
-      "VeryGames",
-      "TCM-Gaming",
-      "Imaginary",
-      "Marcos",
-      "VERYGOLD",
-      "kennyS' Team"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "24267",
-    "nickname": "sidde",
-    "full_name": "Sid Macedo",
-    "country": "Russia",
-    "continent": "CIS",
-    "team": "FURIA",
-    "age": 29,
-    "major_count": 0,
-    "role": "教练",
-    "peak_top": ">20",
-    "past_teams": [
-      "FURIA"
-    ],
-    "is_caster": false
-  },
-  {
     "id": "22695",
     "nickname": "sirah",
     "full_name": "William Kjærsgaard",
@@ -3039,36 +2376,6 @@
       "No Problem!",
       "Xapso",
       "POPPERS"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "2553",
-    "nickname": "Snax",
-    "full_name": "Janusz Pogorzelski",
-    "country": "Poland",
-    "continent": "欧洲",
-    "team": "GamerLegion",
-    "age": 33,
-    "major_count": 1,
-    "role": "步枪手",
-    "peak_top": 4,
-    "past_teams": [
-      "GamerLegion",
-      "G2",
-      "Pompa",
-      "Let us cook",
-      "ex-Finest",
-      "MONKE",
-      "Anonymo",
-      "Illuminar",
-      "Virtus.pro",
-      "MOUZ",
-      "AGAiN",
-      "UniversalSoldiers",
-      "ESC",
-      "GF-Gaming",
-      "ENCE"
     ],
     "is_caster": false
   },
@@ -3264,31 +2571,6 @@
       "Magistra",
       "Singularity",
       "Optimum"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "9217",
-    "nickname": "TACO",
-    "full_name": "Epitacio de Melo",
-    "country": "Brazil",
-    "continent": "南美洲",
-    "team": "自由身",
-    "age": 31,
-    "major_count": 2,
-    "role": "步枪手",
-    "peak_top": ">20",
-    "past_teams": [
-      "Tropa do Taco",
-      "O PLANO",
-      "00NATION",
-      "GODSENT",
-      "MIBR",
-      "Liquid",
-      "SK",
-      "Luminosity",
-      "Games Academy",
-      "Sojoga"
     ],
     "is_caster": false
   },
@@ -3557,25 +2839,6 @@
     "is_caster": false
   },
   {
-    "id": "18731",
-    "nickname": "wasiNk",
-    "full_name": "Damien Dufour",
-    "country": "France",
-    "continent": "欧洲",
-    "team": "3DMAX",
-    "age": 30,
-    "major_count": 0,
-    "role": "教练",
-    "peak_top": ">20",
-    "past_teams": [
-      "GenOne",
-      "Ambush",
-      "Apologis",
-      "HellSide"
-    ],
-    "is_caster": false
-  },
-  {
     "id": "16551",
     "nickname": "Westmelon",
     "full_name": "Zhe Niu",
@@ -3765,6 +3028,30 @@
     "is_caster": false
   },
   {
+    "id": "4954",
+    "nickname": "Xyp9x",
+    "full_name": "Andreas Højsleth",
+    "country": "Denmark",
+    "continent": "欧洲",
+    "team": "自由身",
+    "age": 30,
+    "major_count": 4,
+    "role": "步枪手",
+    "peak_top": 13,
+    "past_teams": [
+      "Astralis Talent",
+      "Astralis",
+      "?",
+      "TSM",
+      "Dignitas",
+      "über G33KZ",
+      "CPH Wolves",
+      "fnatic",
+      "CPLAY"
+    ],
+    "is_caster": false
+  },
+  {
     "id": "13915",
     "nickname": "YEKINDAR",
     "full_name": "Mareks Gaļinskis",
@@ -3838,49 +3125,6 @@
     "past_teams": [
       "TYLOO",
       "Change The Game"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "484",
-    "nickname": "Zeus",
-    "full_name": "Danylo Teslenko",
-    "country": "Ukraine",
-    "continent": "CIS",
-    "team": "自由身",
-    "age": 38,
-    "major_count": 1,
-    "role": "步枪手",
-    "peak_top": ">20",
-    "past_teams": [
-      "Natus Vincere",
-      "Gambit"
-    ],
-    "is_caster": false
-  },
-  {
-    "id": "8601",
-    "nickname": "zhokiNg",
-    "full_name": "WeiJie Zhong",
-    "country": "China",
-    "continent": "亚洲",
-    "team": "TYLOO",
-    "age": 32,
-    "major_count": 0,
-    "role": "教练",
-    "peak_top": ">20",
-    "past_teams": [
-      "Take Me Away",
-      "YK",
-      "Rare Atom",
-      "ViCi",
-      "Flash",
-      "VG.Flash",
-      "VG.CyberZen",
-      "CyberZen",
-      "QeeYou",
-      "Nface.GM",
-      "TYLOO"
     ],
     "is_caster": false
   },

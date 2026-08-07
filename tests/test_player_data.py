@@ -10,8 +10,8 @@ VALID_ROLES = {"步枪手", "狙击手", "教练", "解说"}
 VALID_CONTINENTS = {"CIS", "欧洲", "亚洲", "北美洲", "南美洲", "大洋洲", "非洲"}
 
 def test_player_count():
-    """选手总数 >= 170 (24队*5 + 24教练 + 冠军 + 4解说)"""
-    assert len(PLAYERS) >= 170, f"选手太少: {len(PLAYERS)}"
+    """选手总数 >= 140 (24队*5 + 知名教练 + 2018+冠军 + 解说)"""
+    assert len(PLAYERS) >= 140, f"选手太少: {len(PLAYERS)}"
 
 def test_unique_ids():
     """ID 唯一"""
@@ -57,15 +57,15 @@ def test_bcgame_players():
     assert by_nick["magisk"]["team"] == "BC.Game", "Magisk 应在 BC.Game"
 
 def test_known_players():
-    """关键选手存在"""
+    """关键选手存在 (仅2018+冠军 + 现役)"""
     nicks = {p["nickname"].lower() for p in PLAYERS}
-    for n in ["karrigan", "niko", "donk", "zywoo", "s1mple", "device", "guardian", "kennyS", "coldzera"]:
+    for n in ["karrigan", "niko", "donk", "zywoo", "s1mple", "device", "chopper", "boombl4", "electronic"]:
         assert n.lower() in nicks, f"缺少关键选手: {n}"
 
 def test_awpers_correct():
     """各队主狙击手角色正确"""
     by_nick = {p["nickname"].lower(): p for p in PLAYERS}
-    for nick in ["m0nesy", "sh1ro", "zywoo", "torzsi", "w0nderful", "device", "s1mple", "guardian", "kennys"]:
+    for nick in ["m0nesy", "sh1ro", "zywoo", "torzsi", "w0nderful", "device", "s1mple", "skadoodle"]:
         assert by_nick[nick.lower()]["role"] == "狙击手", f"{nick} 应为狙击手"
 
 def test_top20_known_players():

@@ -24,7 +24,7 @@ def make_player(**kw) -> Player:
 
 def test_engine_loads_data():
     eng = GameEngine()
-    assert len(eng.pool) >= 170
+    assert len(eng.pool) >= 140
 
 
 def test_find_and_search():
