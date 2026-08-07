@@ -76,6 +76,7 @@ class Room:
     winner: Optional[str] = None
     used_targets: set = field(default_factory=set) # 已用过的目标
     waiting: bool = True                           # 等待开始
+    last_activity: float = field(default_factory=time.time)  # 最后活动时间
 
     def player_scores(self) -> dict:
         return {sid: ps.score for sid, ps in self.players.items()}
@@ -211,6 +212,7 @@ class GameEngine:
         sid = self._new_session_id()
         room.players[sid] = PlayerState(session_id=sid, name=host_name or "房主")
         room.host_id = sid
+        room.last_activity = time.time()
         self.rooms[code] = room
         return room, sid
 
@@ -222,6 +224,7 @@ class GameEngine:
             return None, None, "游戏已结束"
         sid = self._new_session_id()
         room.players[sid] = PlayerState(session_id=sid, name=name or "玩家")
+        room.last_activity = time.time()
         return room, sid, ""
 
     def _new_session_id(self) -> str:
@@ -280,6 +283,7 @@ class GameEngine:
             return None, "未加入房间"
         if not room.round_active:
             return None, "回合未开始"
+        room.last_activity = time.time()
         if len(ps.guesses_this_round) >= MAX_GUESSES:
             return None, f"本轮猜测次数已用完 ({MAX_GUESSES}/{MAX_GUESSES})"
         guess = self.find_player(player_id)
@@ -352,6 +356,17 @@ class GameEngine:
             "role": target.role,
             "peak_top": str(target.peak_top),
         }
+
+    # ---- 清理 ----
+
+    def cleanup_stale_rooms(self, max_idle: float = 2 * 3600) -> int:
+        """清理超过 max_idle 秒无活动的房间, 返回清理数量"""
+        now = time.time()
+        stale = [code for code, room in self.rooms.items()
+                 if now - room.last_activity > max_idle]
+        for code in stale:
+            self.rooms.pop(code, None)
+        return len(stale)
 
     # ---- 查询 ----
 

@@ -367,6 +367,17 @@ def make_app() -> web.Application:
     return app
 
 
+async def cleanup_loop():
+    """定期清理无活动房间 (每 10 分钟, 清理 2 小时无活动)"""
+    while True:
+        await asyncio.sleep(600)
+        n = engine.cleanup_stale_rooms()
+        if n:
+            log.info(f"已清理 {n} 个无活动房间, 剩余 {len(engine.rooms)}")
+
+
 if __name__ == "__main__":
     log.info(f"启动服务器: http://localhost:{PORT} (选手池 {len(engine.pool)} 人)")
-    web.run_app(make_app(), host=HOST, port=PORT)
+    app = make_app()
+    app.on_startup.append(lambda app: asyncio.create_task(cleanup_loop()))
+    web.run_app(app, host=HOST, port=PORT)
