@@ -366,7 +366,6 @@ class GameEngine:
             "winner": winner_sid,
             "reason": reason,          # correct / timeout / exhausted
             "target": self._target_summary(room.target),
-            "scores": room.player_scores(),
         }
 
         if winner_sid:
@@ -376,6 +375,9 @@ class GameEngine:
                 room.winner = winner_sid
                 result["game_over"] = True
                 result["final_winner"] = room.players[winner_sid].name
+
+        # 比分必须在加分之后计算, 保证 round_end 携带最新分数
+        result["scores"] = room.player_scores()
 
         # 检查是否所有人都用完猜测
         if reason == "timeout" and all(

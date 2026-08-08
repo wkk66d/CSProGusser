@@ -101,6 +101,8 @@ function handleMessage(msg) {
       $("round-overlay").classList.add("hidden");
       showScreen("screen-game");
       targetScore = msg.target_score;
+      // 同步玩家列表 (score 已重置为 0, 修复再来一局后比分残留)
+      if (msg.players) playersList = msg.players;
       renderScores();
       break;
     case "round_start":

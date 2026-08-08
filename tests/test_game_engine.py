@@ -57,8 +57,18 @@ def test_compare_country_cis_separate():
 
 def test_compare_country_cis_same():
     g = make_player(country="Russia", continent="CIS")
-    t = make_player(country="Ukraine", continent="CIS")
+    t = make_player(country="Kazakhstan", continent="CIS")
     assert compare_country(g, t)["color"] == "yellow"
+
+
+def test_compare_country_ukraine_europe():
+    # 乌克兰属于欧洲: 乌克兰 vs 丹麦 同洲 -> 黄
+    g = make_player(country="Ukraine", continent="欧洲")
+    t = make_player(country="Denmark", continent="欧洲")
+    assert compare_country(g, t)["color"] == "yellow"
+    # 乌克兰 vs 俄罗斯 (CIS) -> 灰
+    t2 = make_player(country="Russia", continent="CIS")
+    assert compare_country(g, t2)["color"] == "gray"
 
 
 def test_compare_team_same():
@@ -225,3 +235,34 @@ def test_room_code_unique():
         room, _ = eng.create_room(f"P{i}")
         assert room.code not in rooms
         rooms.add(room.code)
+
+
+def test_round_end_scores_after_increment():
+    """round_end 的 scores 必须包含加分后的最新比分 (回归测试)"""
+    eng = GameEngine()
+    room, sid1 = eng.create_room("A", target_score=3)
+    room2, sid2, _ = eng.join_room(room.code, "B")
+    eng.start_game(room)
+    eng.start_round(room)
+    res = eng.end_round(room, winner_sid=sid1, reason="correct")
+    # 加分后: sid1 应为 1 分
+    assert res["scores"][sid1] == 1, f"scores 应为加分后比分: {res['scores']}"
+    assert room.players[sid1].score == 1
+
+
+def test_rematch_resets_scores():
+    """再来一局后所有玩家分数归零"""
+    eng = GameEngine()
+    room, sid1 = eng.create_room("A", target_score=1)
+    room2, sid2, _ = eng.join_room(room.code, "B")
+    eng.start_game(room)
+    eng.start_round(room)
+    eng.end_round(room, winner_sid=sid1, reason="correct")
+    assert room.players[sid1].score == 1
+    assert room.game_over is True
+    # 再来一局
+    eng.start_game(room)
+    assert room.players[sid1].score == 0
+    assert room.players[sid2].score == 0
+    assert room.game_over is False
+    assert room.winner is None
