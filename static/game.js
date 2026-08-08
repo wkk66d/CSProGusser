@@ -157,8 +157,8 @@ function handleMessage(msg) {
       break;
     case "game_over":
       gameOver = true;
-      // 对局获胜: 显示醒目的"再来一局"按钮
-      $("btn-rematch").classList.remove("hidden");
+      // 对局获胜: 显示醒目的"再来一局"按钮 (hidden 类在父容器 round-rematch 上)
+      $("round-rematch").classList.remove("hidden");
       $("btn-rematch").classList.add("rematch-btn");
       $("round-target-info").classList.add("hidden");
       if (msg.winner === myName) {
@@ -480,7 +480,7 @@ function showGuessFeedback(text, ok) {
 
 // ---------- 回合结束 ----------
 function showRoundEnd(msg) {
-  $("btn-rematch").classList.add("hidden");
+  $("round-rematch").classList.add("hidden");  // 父容器隐藏按钮
   $("btn-rematch").classList.remove("rematch-btn");
   $("round-target-info").classList.remove("hidden");
   const title = $("round-result-title");
