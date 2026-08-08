@@ -121,7 +121,7 @@ def compare_number(guess_val, target_val, close_range=0) -> dict:
 
 
 def compare_age(guess: Player, target: Player) -> dict:
-    return compare_number(guess.age, target.age, close_range=2)
+    return compare_number(guess.age, target.age, close_range=3)
 
 
 def compare_major(guess: Player, target: Player) -> dict:

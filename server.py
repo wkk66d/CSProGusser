@@ -216,17 +216,20 @@ async def handle_message(ws: web.WebSocketResponse, conn_state: dict, data: dict
             "guess_number": result["guess_number"],
         }, exclude=sid)
         if result["correct"]:
-            # 有人猜中, 立即结束回合
-            await asyncio.sleep(1.5)  # 短暂展示
+            await asyncio.sleep(0.5)  # 短暂展示猜中结果
             if room.round_active:
                 res = engine.end_round(room, winner_sid=sid, reason="correct")
+                # 立即广播最新比分
+                for psid in list(room.players.keys()):
+                    await send(psid, {"type": "scores_update", "scores": room.player_scores()})
                 await on_round_end(room, res)
             return
         if result.get("all_exhausted"):
-            # 所有人猜测次数均用完, 结束回合
-            await asyncio.sleep(1.0)
+            await asyncio.sleep(0.5)
             if room.round_active:
                 res = engine.end_round(room, reason="exhausted")
+                for psid in list(room.players.keys()):
+                    await send(psid, {"type": "scores_update", "scores": room.player_scores()})
                 await on_round_end(room, res)
         return
 

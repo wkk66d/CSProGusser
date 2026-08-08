@@ -130,6 +130,16 @@ function handleMessage(msg) {
       oppGuesses[msg.player_session].push(msg.colors);
       renderOpponents();
       break;
+    case "scores_update":
+      // 立即更新比分栏 (在 round_end 弹窗前)
+      if (msg.scores) {
+        Object.entries(msg.scores).forEach(([sid, s]) => {
+          const p = playersList.find(pp => pp.session_id === sid);
+          if (p) p.score = s;
+        });
+        renderScores(msg.scores);
+      }
+      break;
     case "round_end":
       roundActive = false;
       enableInput(false);
