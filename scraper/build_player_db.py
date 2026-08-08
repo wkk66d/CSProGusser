@@ -177,11 +177,12 @@ def match_top20(raw: dict) -> dict:
     result = {}
     for pid, v in raw.items():
         nick = v.get("nickname", "")
-        best = nick_best.get(norm(nick))
-        if best is None:
-            nn = norm(nick)
+        nn = norm(nick)
+        best = nick_best.get(nn)
+        if best is None and len(nn) >= 4:
+            # 模糊匹配仅用于相近长度的昵称 (避免 nafany 误匹配 NAF)
             for n, r in nick_best.items():
-                if nn and (nn in n or n in nn):
+                if len(n) >= 4 and (nn in n or n in nn):
                     best = r
                     break
         result[pid] = best if best else ">20"
