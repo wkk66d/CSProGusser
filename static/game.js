@@ -393,7 +393,7 @@ function renderSuggestions(query) {
     return;
   }
   suggestMatches = playerPool
-    .filter(p => p.nickname.toLowerCase().includes(q) || p.full_name.toLowerCase().includes(q))
+    .filter(p => p.nickname.toLowerCase().includes(q))
     .slice(0, 8);
 
   if (suggestMatches.length === 0) {
@@ -546,14 +546,8 @@ function bindEvents() {
 function submitGuess() {
   if (!roundActive) return;
   if (!selectedPlayerId) {
-    // 尝试精确匹配昵称
-    const v = $("guess-input").value.trim().toLowerCase();
-    const p = playerPool.find(pp => pp.nickname.toLowerCase() === v);
-    if (!p) {
-      showGuessFeedback("请从下拉列表选择选手", false);
-      return;
-    }
-    selectedPlayerId = p.id;
+    showGuessFeedback("请从下拉列表选择选手", false);
+    return;
   }
   send({ type: "guess", player_id: selectedPlayerId });
   // 提交后自动清空输入栏

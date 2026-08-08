@@ -45,15 +45,15 @@ AWPER_BY_TEAM = {
 # 退役/历史选手中的狙击手 (经搜索核实: kennyS, GuardiaN, JW, Skadoodle, s1mple)
 LEGEND_AWPERS = {"kennys", "guardian", "jw", "skadoodle", "s1mple"}
 
-# ---- 大洲划分 (CIS 单独) ----
-CIS = {"Russia", "Ukraine", "Belarus", "Kazakhstan", "Uzbekistan", "Kyrgyzstan",
+# ---- 大洲划分 (CIS 单独, 乌克兰属于欧洲) ----
+CIS = {"Russia", "Belarus", "Kazakhstan", "Uzbekistan", "Kyrgyzstan",
        "Armenia", "Azerbaijan", "Georgia", "Moldova", "Tajikistan"}
 EUROPE = {"Denmark", "Sweden", "Norway", "Finland", "Germany", "France", "UK",
           "United Kingdom", "Poland", "Spain", "Portugal", "Netherlands", "Belgium",
           "Switzerland", "Austria", "Czech Republic", "Slovakia", "Hungary", "Romania",
           "Bulgaria", "Serbia", "Croatia", "Slovenia", "Bosnia and Herzegovina",
           "Montenegro", "North Macedonia", "Albania", "Greece", "Turkey", "Türkiye",
-          "Estonia", "Latvia", "Lithuania", "Israel", "Kosovo"}
+          "Estonia", "Latvia", "Lithuania", "Israel", "Kosovo", "Ukraine"}
 ASIA = {"China", "Mongolia", "South Korea", "Japan", "India", "Indonesia",
         "Malaysia", "Philippines", "Thailand", "Vietnam", "Singapore", "Hong Kong"}
 NORTH_AMERICA = {"USA", "United States", "Canada", "Mexico", "Guatemala"}
@@ -61,6 +61,38 @@ SOUTH_AMERICA = {"Brazil", "Argentina", "Chile", "Colombia", "Uruguay", "Peru",
                  "Ecuador", "Paraguay", "Bolivia", "Venezuela"}
 OCEANIA = {"Australia", "New Zealand"}
 AFRICA = {"South Africa"}
+
+# ---- 国家名中英对照 ----
+COUNTRY_ZH = {
+    "Denmark": "丹麦", "Sweden": "瑞典", "Norway": "挪威", "Finland": "芬兰",
+    "Germany": "德国", "France": "法国", "UK": "英国", "United Kingdom": "英国",
+    "Poland": "波兰", "Spain": "西班牙", "Portugal": "葡萄牙", "Netherlands": "荷兰",
+    "Belgium": "比利时", "Switzerland": "瑞士", "Austria": "奥地利",
+    "Czech Republic": "捷克", "Slovakia": "斯洛伐克", "Hungary": "匈牙利",
+    "Romania": "罗马尼亚", "Bulgaria": "保加利亚", "Serbia": "塞尔维亚",
+    "Croatia": "克罗地亚", "Slovenia": "斯洛文尼亚",
+    "Bosnia and Herzegovina": "波黑", "Montenegro": "黑山",
+    "North Macedonia": "北马其顿", "Albania": "阿尔巴尼亚", "Greece": "希腊",
+    "Turkey": "土耳其", "Türkiye": "土耳其",
+    "Estonia": "爱沙尼亚", "Latvia": "拉脱维亚", "Lithuania": "立陶宛",
+    "Israel": "以色列", "Kosovo": "科索沃",
+    "Russia": "俄罗斯", "Ukraine": "乌克兰", "Belarus": "白俄罗斯",
+    "Kazakhstan": "哈萨克斯坦", "Uzbekistan": "乌兹别克斯坦",
+    "Kyrgyzstan": "吉尔吉斯斯坦", "Armenia": "亚美尼亚", "Azerbaijan": "阿塞拜疆",
+    "Georgia": "格鲁吉亚", "Moldova": "摩尔多瓦", "Tajikistan": "塔吉克斯坦",
+    "China": "中国", "Mongolia": "蒙古", "South Korea": "韩国", "Japan": "日本",
+    "India": "印度", "Indonesia": "印度尼西亚", "Malaysia": "马来西亚",
+    "Philippines": "菲律宾", "Thailand": "泰国", "Vietnam": "越南",
+    "Singapore": "新加坡", "Hong Kong": "中国香港",
+    "USA": "美国", "United States": "美国", "Canada": "加拿大", "Mexico": "墨西哥",
+    "Guatemala": "危地马拉",
+    "Brazil": "巴西", "Argentina": "阿根廷", "Chile": "智利",
+    "Colombia": "哥伦比亚", "Uruguay": "乌拉圭", "Peru": "秘鲁",
+    "Ecuador": "厄瓜多尔", "Paraguay": "巴拉圭", "Bolivia": "玻利维亚",
+    "Venezuela": "委内瑞拉",
+    "Australia": "澳大利亚", "New Zealand": "新西兰",
+    "South Africa": "南非",
+}
 
 def continent_of(country: str) -> str:
     if country in CIS:
@@ -210,11 +242,13 @@ def main():
         if any(x in team for x in ("Retired", "Benched", "Inactive", "No team", "Free agent", "Bench")):
             team = "自由身"
         country = v["country"]
+        country_zh = COUNTRY_ZH.get(country, country)
         players.append({
             "id": pid,
             "nickname": nick,
             "full_name": v.get("full_name", ""),
             "country": country,
+            "country_zh": country_zh,
             "continent": continent_of(country),
             "team": team,
             "age": v["age"],

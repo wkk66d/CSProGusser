@@ -33,12 +33,14 @@ class Player:
     peak_top: object  # int (1-20) 或 ">20"
     past_teams: list
     is_caster: bool = False
+    country_zh: str = ""  # 中文国家名
 
     @classmethod
     def from_dict(cls, d: dict) -> "Player":
         return cls(
             id=str(d["id"]), nickname=d["nickname"], full_name=d.get("full_name", ""),
-            country=d["country"], continent=d["continent"], team=d["team"],
+            country=d["country"], country_zh=d.get("country_zh", d["country"]),
+            continent=d["continent"], team=d["team"],
             age=d["age"], major_count=d["major_count"], role=d["role"],
             peak_top=d["peak_top"], past_teams=d.get("past_teams", []),
             is_caster=d.get("is_caster", False),
@@ -89,40 +91,41 @@ ATTR_LABELS = ["国家", "战队", "年龄", "Major", "位置", "最高Top"]
 
 
 def compare_country(guess: Player, target: Player) -> dict:
+    cn = guess.country_zh or guess.country
     if guess.country == target.country:
-        return {"color": "green", "value": guess.country, "arrow": ""}
+        return {"color": "green", "value": cn, "arrow": ""}
     if guess.continent == target.continent and guess.continent != "其他":
-        return {"color": "yellow", "value": guess.country, "arrow": ""}
-    return {"color": "gray", "value": guess.country, "arrow": ""}
+        return {"color": "yellow", "value": cn, "arrow": ""}
+    return {"color": "gray", "value": cn, "arrow": ""}
 
 
 def compare_team(guess: Player, target: Player) -> dict:
     if guess.team == target.team:
         return {"color": "green", "value": guess.team, "arrow": ""}
-    # 目标选手曾效力过 guess 的当前队伍 -> 黄色
+    # 目标选手曾效力过 本轮猜测选手所在战队 -> 黄色
     if guess.team != "自由身" and guess.team in target.past_teams:
-        return {"color": "yellow", "value": guess.team, "arrow": ""}
-    # 反向: guess 曾效力过 target 的当前队伍 -> 黄色
-    if target.team != "自由身" and target.team in guess.past_teams:
         return {"color": "yellow", "value": guess.team, "arrow": ""}
     return {"color": "gray", "value": guess.team, "arrow": ""}
 
 
-def compare_number(guess_val, target_val) -> dict:
-    """通用数值比较: 返回颜色与箭头"""
+def compare_number(guess_val, target_val, close_range=0) -> dict:
+    """通用数值比较: 返回颜色与箭头, close_range 内标黄."""
     if guess_val == target_val:
         return {"color": "green", "value": str(guess_val), "arrow": "="}
+    if close_range and abs(guess_val - target_val) <= close_range:
+        arrow = "↑" if guess_val < target_val else "↓"
+        return {"color": "yellow", "value": str(guess_val), "arrow": arrow}
     if guess_val < target_val:
         return {"color": "gray", "value": str(guess_val), "arrow": "↑"}  # 目标更高
     return {"color": "gray", "value": str(guess_val), "arrow": "↓"}      # 目标更低
 
 
 def compare_age(guess: Player, target: Player) -> dict:
-    return compare_number(guess.age, target.age)
+    return compare_number(guess.age, target.age, close_range=2)
 
 
 def compare_major(guess: Player, target: Player) -> dict:
-    return compare_number(guess.major_count, target.major_count)
+    return compare_number(guess.major_count, target.major_count, close_range=1)
 
 
 def compare_role(guess: Player, target: Player) -> dict:
@@ -140,8 +143,13 @@ def compare_top(guess: Player, target: Player) -> dict:
     gv, tv = top_value(guess), top_value(target)
     if gv == tv:
         return {"color": "green", "value": str(guess.peak_top), "arrow": "="}
+    # 仅对数值 Top20 做相近标黄 (差值 ≤3)
+    if isinstance(guess.peak_top, int) and isinstance(target.peak_top, int):
+        if abs(gv - tv) <= 3:
+            arrow = "↑" if gv < tv else "↓"
+            return {"color": "yellow", "value": str(guess.peak_top), "arrow": arrow}
     if gv < tv:
-        return {"color": "gray", "value": str(guess.peak_top), "arrow": "↑"}  # 猜的更靠前但非目标
+        return {"color": "gray", "value": str(guess.peak_top), "arrow": "↑"}
     return {"color": "gray", "value": str(guess.peak_top), "arrow": "↓"}
 
 
@@ -183,13 +191,13 @@ class GameEngine:
         return None
 
     def search_players(self, query: str, limit: int = 8) -> list[dict]:
-        """按昵称/真名模糊搜索选手 (用于自动补全)"""
+        """按昵称模糊搜索选手 (用于自动补全)"""
         q = query.lower().strip()
         if not q:
             return []
         results = []
         for p in self._pool:
-            if q in p.nickname.lower() or q in p.full_name.lower():
+            if q in p.nickname.lower():
                 results.append({
                     "id": p.id, "nickname": p.nickname, "team": p.team,
                     "country": p.country, "role": p.role,
@@ -277,7 +285,7 @@ class GameEngine:
         return True
 
     def submit_guess(self, room: Room, sid: str, player_id: str) -> tuple[Optional[dict], str]:
-        """提交猜测, 返回 (guess_result, error)"""
+        """提交猜测, 返回 (guess_result, error) 或 ("exhausted", result)"""
         ps = room.players.get(sid)
         if not ps:
             return None, "未加入房间"
@@ -293,6 +301,13 @@ class GameEngine:
         record = GuessRecord(player=guess, feedback=feedback, colors=colors)
         ps.guesses_this_round.append(record)
         is_correct = colors == ["green"] * 6
+
+        # 检查是否所有人猜测次数均耗尽
+        all_exhausted = all(
+            len(p.guesses_this_round) >= MAX_GUESSES
+            for p in room.players.values()
+        )
+
         result = {
             "correct": is_correct,
             "guess_number": len(ps.guesses_this_round),
@@ -300,6 +315,7 @@ class GameEngine:
             "guess_nickname": guess.nickname,
             "feedback": {k: v for k, v in feedback.items()},
             "colors": colors,
+            "all_exhausted": all_exhausted,
         }
         return result, ""
 

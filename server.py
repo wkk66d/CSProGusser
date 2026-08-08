@@ -221,6 +221,13 @@ async def handle_message(ws: web.WebSocketResponse, conn_state: dict, data: dict
             if room.round_active:
                 res = engine.end_round(room, winner_sid=sid, reason="correct")
                 await on_round_end(room, res)
+            return
+        if result.get("all_exhausted"):
+            # 所有人猜测次数均用完, 结束回合
+            await asyncio.sleep(1.0)
+            if room.round_active:
+                res = engine.end_round(room, reason="exhausted")
+                await on_round_end(room, res)
         return
 
     if mtype == "rematch":
@@ -284,8 +291,8 @@ async def index_handler(request: web.Request):
 async def api_players(request: web.Request):
     """选手列表 (自动补全用)"""
     players = [{"id": p.id, "nickname": p.nickname, "full_name": p.full_name,
-                "team": p.team, "country": p.country, "role": p.role,
-                "continent": p.continent}
+                "team": p.team, "country": p.country_zh or p.country,
+                "role": p.role, "continent": p.continent}
                for p in engine.pool]
     return web.json_response(players)
 
