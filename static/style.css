@@ -6,18 +6,18 @@
   --yellow-dark: #d97706;
   --gray: #64748b;
   --gray-dark: #475569;
-  --glass: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
-  --glass-strong: linear-gradient(135deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08));
-  --glass-border: rgba(255, 255, 255, 0.18);
-  --glass-border-strong: rgba(255, 255, 255, 0.3);
+  --glass: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05));
+  --glass-strong: linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.09));
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-border-strong: rgba(255, 255, 255, 0.35);
   --text: #f1f5f9;
-  --text-dim: rgba(226, 232, 240, 0.62);
+  --text-dim: rgba(226, 232, 240, 0.66);
   --accent: #fb7185;
   --accent-2: #60a5fa;
   --gold: #fbbf24;
-  --radius: 16px;
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-  --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  --radius: 20px;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -134,7 +134,7 @@ body::after {
   display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 7px;
   font-weight: 600;
 }
-.lobby-row { display: flex; gap: 10px; }
+.lobby-row { display: flex; gap: 10px; flex-wrap: wrap; }
 
 input, select, button {
   font-family: inherit; font-size: 14px;
@@ -184,6 +184,41 @@ button.ghost {
 }
 button.ghost:hover { color: var(--text); border-color: var(--glass-border-strong); }
 
+/* 分段按钮组 (抢 N 选择) */
+.seg-group {
+  display: flex;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 3px;
+  gap: 3px;
+  backdrop-filter: blur(14px);
+}
+.seg-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-dim);
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: none;
+  cursor: pointer;
+  transition: all .18s;
+}
+.seg-btn:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+  transform: none;
+  box-shadow: none;
+}
+.seg-btn.active {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.9), rgba(217, 119, 6, 0.85));
+  color: #1a1a1a;
+  box-shadow: 0 2px 12px rgba(251, 191, 36, 0.4), var(--inner-highlight);
+}
+.seg-btn:disabled { opacity: .45; }
+
 .error-msg { color: #fca5a5; font-size: 13px; min-height: 18px; margin-top: 8px; }
 .conn-error {
   color: #fca5a5;
@@ -232,16 +267,16 @@ button.ghost:hover { color: var(--text); border-color: var(--glass-border-strong
 /* ---------- 游戏界面 ---------- */
 #screen-game {
   flex-direction: column;
-  padding: 12px 18px;
+  padding: 18px 26px;
 }
 
-.game-top { width: 100%; max-width: 1400px; }
+.game-top { width: 100%; max-width: 1500px; }
 
 .score-bar {
-  display: flex; align-items: center; gap: 12px;
-  padding: 10px 14px;
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 20px;
   border-radius: var(--radius);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   flex-wrap: wrap;
   background: var(--glass);
   border: 1px solid var(--glass-border);
@@ -250,25 +285,25 @@ button.ghost:hover { color: var(--text); border-color: var(--glass-border-strong
   box-shadow: var(--shadow), var(--inner-highlight);
 }
 .score-item {
-  display: flex; align-items: center; gap: 9px;
-  padding: 7px 16px;
-  border-radius: 12px;
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 20px;
+  border-radius: 14px;
   background: var(--glass);
   border: 1px solid var(--glass-border);
   transition: all .2s;
   backdrop-filter: blur(16px);
 }
 .score-item.me {
-  border-color: rgba(96, 165, 250, 0.6);
-  background: linear-gradient(135deg, rgba(96,165,250,0.3), rgba(96,165,250,0.08));
-  box-shadow: 0 0 20px rgba(96, 165, 250, 0.2), var(--inner-highlight);
+  border-color: rgba(96, 165, 250, 0.7);
+  background: linear-gradient(135deg, rgba(96,165,250,0.35), rgba(96,165,250,0.1));
+  box-shadow: 0 0 24px rgba(96, 165, 250, 0.25), var(--inner-highlight);
 }
-.score-item .name { font-weight: 700; font-size: 14px; }
+.score-item .name { font-weight: 800; font-size: 16px; }
 .score-item .pts {
-  font-size: 20px; font-weight: 800; color: var(--gold);
-  text-shadow: 0 0 14px rgba(251, 191, 36, 0.5);
+  font-size: 24px; font-weight: 900; color: var(--gold);
+  text-shadow: 0 0 16px rgba(251, 191, 36, 0.55);
 }
-.score-item .target { font-size: 11px; color: var(--text-dim); }
+.score-item .target { font-size: 12px; color: var(--text-dim); }
 
 .status-bar {
   display: flex; justify-content: space-between; align-items: center;
@@ -297,14 +332,14 @@ button.ghost:hover { color: var(--text); border-color: var(--glass-border-strong
 .game-middle {
   flex: 1;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1500px;
   display: flex;
   gap: 12px;
   min-height: 0;
 }
 
 .panel {
-  padding: 12px;
+  padding: 18px;
   border-radius: var(--radius);
   display: flex;
   flex-direction: column;
@@ -329,18 +364,20 @@ button.ghost:hover { color: var(--text); border-color: var(--glass-border-strong
 .panel-opp { flex: 1; }
 
 .panel-title {
-  font-size: 13px;
-  color: var(--text-dim);
-  margin-bottom: 8px;
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 12px;
   flex-shrink: 0;
-  display: flex; align-items: center; gap: 6px;
-  font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
 }
 .panel-title::before {
   content: "";
-  width: 3px; height: 14px;
+  width: 4px; height: 16px;
   border-radius: 2px;
   background: linear-gradient(180deg, var(--accent-2), transparent);
+  box-shadow: 0 0 10px rgba(96, 165, 250, 0.6);
 }
 
 .panel-empty {
@@ -351,76 +388,85 @@ button.ghost:hover { color: var(--text); border-color: var(--glass-border-strong
   flex: 1;
 }
 
-/* 自己的猜测表格 */
+/* 自己的猜测表格 — 与对手一致的色块条外观, 保留文字+箭头 */
 .self-table-wrap { flex: 1; overflow-y: auto; min-height: 0; scrollbar-width: thin; }
 
 .guess-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 4px;
-  font-size: 13px;
+  border-spacing: 0 6px;
+  font-size: 14px;
 }
 .guess-table th {
-  padding: 8px 4px;
-  font-size: 12px;
+  padding: 10px 6px;
+  font-size: 12.5px;
+  font-weight: 700;
   color: var(--text-dim);
   border-bottom: 1px solid var(--glass-border);
   position: sticky; top: 0;
   z-index: 5;
-  background: rgba(10, 14, 26, 0.55);
+  background: rgba(10, 14, 26, 0.6);
   backdrop-filter: blur(12px);
+  letter-spacing: 1px;
 }
 .guess-table td {
-  padding: 5px 4px;
+  padding: 4px 3px;
   text-align: center;
   white-space: nowrap;
-  background: rgba(255, 255, 255, 0.05);
-  border-top: 1px solid rgba(255,255,255,0.06);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.guess-table td:first-child {
-  border-left: 1px solid rgba(255,255,255,0.08);
-  border-radius: 10px 0 0 10px;
-}
-.guess-table td:last-child {
-  border-right: 1px solid rgba(255,255,255,0.08);
-  border-radius: 0 10px 10px 0;
+  background: transparent;
+  border: none;
 }
 .guess-table td.nick {
   text-align: left;
-  font-weight: 700;
-  padding-left: 10px;
-  font-size: 13px;
-}
-.guess-table tr.correct td { outline: 2px solid var(--green); outline-offset: -1px; }
-
-.cell {
-  border-radius: 6px;
-  padding: 4px 8px;
-  font-size: 12px;
-  display: inline-block;
-  min-width: 52px;
-  max-width: 115px;
+  font-weight: 800;
+  padding-left: 14px;
+  font-size: 14px;
+  color: var(--text);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-weight: 600;
+  max-width: 110px;
 }
-.cell .arrow { font-weight: 800; margin-left: 3px; font-size: 13px; }
+.guess-table tr.correct td.nick { color: var(--green); }
+.guess-table tr.correct .cell.green { box-shadow: 0 0 18px rgba(52, 211, 153, 0.7); }
+
+/* 色块条: 与对手 opp-block 一致的渐变玻璃质感, 内部保留文字+箭头 */
+.cell {
+  border-radius: 8px;
+  padding: 8px 6px;
+  font-size: 13px;
+  font-weight: 700;
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.5px;
+  transition: transform .12s;
+}
+.cell:hover { transform: scale(1.04); }
+.cell .arrow {
+  font-weight: 900;
+  margin-left: 3px;
+  font-size: 14px;
+}
 
 .cell.green {
   background: linear-gradient(135deg, var(--green-dark), var(--green));
-  color: #052e16;
-  box-shadow: 0 2px 10px rgba(52, 211, 153, 0.35), var(--inner-highlight);
+  color: #042f1d;
+  box-shadow: 0 3px 14px rgba(52, 211, 153, 0.4), var(--inner-highlight);
 }
 .cell.yellow {
   background: linear-gradient(135deg, var(--yellow-dark), var(--yellow));
   color: #431407;
-  box-shadow: 0 2px 10px rgba(251, 191, 36, 0.35), var(--inner-highlight);
+  box-shadow: 0 3px 14px rgba(251, 191, 36, 0.4), var(--inner-highlight);
 }
 .cell.gray {
   background: linear-gradient(135deg, var(--gray-dark), var(--gray));
-  color: #e2e8f0;
-  box-shadow: var(--inner-highlight);
+  color: #e8edf5;
+  box-shadow: 0 2px 10px rgba(100, 116, 139, 0.3), var(--inner-highlight);
 }
 
 /* 对手颜色块 */
@@ -471,8 +517,8 @@ button.ghost:hover { color: var(--text); border-color: var(--glass-border-strong
 }
 .opp-block {
   aspect-ratio: 3.2 / 1;
-  border-radius: 5px;
-  min-height: 18px;
+  border-radius: 6px;
+  min-height: 22px;
   transition: transform .12s;
 }
 .opp-block:hover { transform: scale(1.06); }
@@ -541,14 +587,19 @@ button.ghost:hover { color: var(--text); border-color: var(--glass-border-strong
 /* 底部输入 */
 .game-bottom {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1500px;
   margin-top: 10px;
   position: relative;
 }
-.guess-input-wrap { display: flex; gap: 10px; }
+.guess-input-wrap { display: flex; gap: 12px; }
 .guess-input-wrap input {
   flex: 1;
-  padding: 14px 18px;
+  padding: 16px 20px;
+  font-size: 16px;
+  border-radius: 14px;
+}
+.guess-input-wrap button {
+  padding: 12px 28px;
   font-size: 15px;
   border-radius: 14px;
 }

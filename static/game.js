@@ -8,6 +8,7 @@ let roomCode = null;
 let myName = "";
 let myScore = 0;
 let targetScore = 2;
+let lobbyScore = 2;   // 创建房间界面的抢 N
 let roundNumber = 0;
 let roundActive = false;
 let guessesLeft = 8;
@@ -164,7 +165,13 @@ function handleMessage(msg) {
       break;
     case "mode_changed":
       targetScore = msg.target_score;
-      $("select-score-2").value = String(targetScore);
+      // 同步等待界面分段按钮
+      const segW = $("seg-wait");
+      if (segW) {
+        segW.querySelectorAll(".seg-btn").forEach(b => {
+          b.classList.toggle("active", parseInt(b.dataset.score) === targetScore);
+        });
+      }
       break;
     case "error":
       showGuessFeedback(msg.message, false);
@@ -213,7 +220,13 @@ function renderWaitPlayers() {
       (p.session_id === isHost ? '<span class="host-tag">房主</span>' : "");
     box.appendChild(div);
   });
-  $("select-score-2").value = String(targetScore);
+  // 同步抢 N 分段按钮
+  const segWait = $("seg-wait");
+  if (segWait) {
+    segWait.querySelectorAll(".seg-btn").forEach(b => {
+      b.classList.toggle("active", parseInt(b.dataset.score) === targetScore);
+    });
+  }
   $("btn-start").disabled = !isHost;
   $("wait-tip").textContent = isHost ? "你是房主，点击开始游戏" : "等待房主开始游戏...";
 }
@@ -507,7 +520,7 @@ function esc(s) {
 function bindEvents() {
   // 防御: 确保所有元素存在 (避免单个缺失导致全部按钮失效)
   const required = ["btn-create", "btn-join", "input-code", "input-name",
-    "btn-start", "btn-leave", "select-score-2", "btn-rematch", "guess-input", "btn-guess"];
+    "btn-start", "btn-leave", "seg-create", "seg-wait", "btn-rematch", "guess-input", "btn-guess"];
   for (const id of required) {
     if (!$(id)) console.error(`页面缺少元素 #${id}`);
   }
@@ -518,7 +531,7 @@ function bindEvents() {
     const name = $("input-name").value.trim();
     if (!name) { $("lobby-error").textContent = "请输入昵称"; return; }
     myName = name;
-    send({ type: "create_room", name, target_score: parseInt($("select-score").value) });
+    send({ type: "create_room", name, target_score: lobbyScore });
   };
   $("btn-join").onclick = () => {
     console.log("🖱️ 点击加入房间");  // 诊断日志
@@ -537,10 +550,24 @@ function bindEvents() {
     send({ type: "start_game" });
   };
   $("btn-leave").onclick = () => location.reload();
-  $("select-score-2").onchange = (e) => {
-    targetScore = parseInt(e.target.value);
-    send({ type: "set_mode", target_score: targetScore });
-  };
+
+  // 分段按钮组: 抢 N 选择
+  function bindSeg(groupId, onSelect) {
+    const group = $(groupId);
+    if (!group) return;
+    group.querySelectorAll(".seg-btn").forEach(btn => {
+      btn.onclick = () => {
+        group.querySelectorAll(".seg-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        onSelect(parseInt(btn.dataset.score));
+      };
+    });
+  }
+  bindSeg("seg-create", v => { lobbyScore = v; });
+  bindSeg("seg-wait", v => {
+    targetScore = v;
+    send({ type: "set_mode", target_score: v });
+  });
 
   // 游戏界面
   $("btn-rematch").onclick = () => { send({ type: "rematch" }); };
