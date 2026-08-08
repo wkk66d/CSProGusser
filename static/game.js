@@ -382,6 +382,14 @@ function renderOpponents() {
 let suggestMatches = [];    // 当前匹配列表
 let suggestIndex = -1;      // 当前高亮项
 
+// 数字↔字母归一化 (与服务端一致: 0↔o 1↔i 3↔e 4↔a 5↔s 7↔t)
+const LEET_PAIRS = [["0","o"],["1","i"],["3","e"],["4","a"],["5","s"],["7","t"]];
+function normalizeNick(s) {
+  s = s.toLowerCase();
+  LEET_PAIRS.forEach(([d, l]) => { s = s.replaceAll(d, "\x00").replaceAll(l, "\x00"); });
+  return s.replace(/\x00/g, "_");  // 所有互通字符归一为 _
+}
+
 async function loadPlayerPool() {
   try {
     // 相对路径, 兼容子路径部署 (如 nginx 反代到 /csprog/)
@@ -402,9 +410,21 @@ function renderSuggestions(query) {
     suggestIndex = -1;
     return;
   }
-  suggestMatches = playerPool
-    .filter(p => p.nickname.toLowerCase().includes(q))
-    .slice(0, 8);
+  const qNorm = normalizeNick(q);
+  // 打分: 首字母匹配100 > 归一化首字母90 > 包含50 > 归一化包含40
+  const scored = [];
+  playerPool.forEach(p => {
+    const nick = p.nickname.toLowerCase();
+    const nickNorm = normalizeNick(nick);
+    let score = 0;
+    if (nick.startsWith(q)) score = 100;
+    else if (nickNorm.startsWith(qNorm)) score = 90;
+    else if (q.length >= 2 && nick.includes(q)) score = 50;
+    else if (q.length >= 2 && nickNorm.includes(qNorm)) score = 40;
+    if (score > 0) scored.push({ ...p, _score: score });
+  });
+  scored.sort((a, b) => b._score - a._score || a.nickname.length - b.nickname.length || a.nickname.localeCompare(b.nickname));
+  suggestMatches = scored.slice(0, 8);
 
   if (suggestMatches.length === 0) {
     suggestIndex = -1;
@@ -412,7 +432,7 @@ function renderSuggestions(query) {
     box.classList.remove("hidden");
     return;
   }
-  suggestIndex = 0;  // 默认高亮第一个
+  suggestIndex = 0;
   box.innerHTML = "";
   suggestMatches.forEach((p, i) => {
     const item = document.createElement("div");

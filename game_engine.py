@@ -190,21 +190,47 @@ class GameEngine:
                 return p
         return None
 
+    # 数字↔字母归一化: 配对整体替换为规范形式, 确保 b1t↔bit 相互匹配
+    _LEET_PAIRS = [("0", "o"), ("1", "i"), ("3", "e"), ("4", "a"), ("5", "s"), ("7", "t")]
+
+    @classmethod
+    def _normalize(cls, s: str) -> str:
+        """归一化: 将数字/字母配对统一替换为占位符, 使 b1t=bit."""
+        s = s.lower()
+        for d, l in cls._LEET_PAIRS:
+            s = s.replace(d, "_").replace(l, "_")
+        return s
+
     def search_players(self, query: str, limit: int = 8) -> list[dict]:
-        """按昵称模糊搜索选手 (用于自动补全)"""
+        """按昵称搜索, 优先首字母匹配 + 支持数字替换模糊匹配."""
         q = query.lower().strip()
         if not q:
             return []
+        q_norm = self._normalize(q)
         results = []
         for p in self._pool:
-            if q in p.nickname.lower():
-                results.append({
-                    "id": p.id, "nickname": p.nickname, "team": p.team,
-                    "country": p.country, "role": p.role,
-                })
-                if len(results) >= limit:
-                    break
-        return results
+            nick = p.nickname.lower()
+            nick_norm = self._normalize(nick)
+            score = 0
+            # 首字母精确匹配 (输入 b → b1t 优先于 Aleksib)
+            if nick.startswith(q):
+                score = 100
+            elif nick_norm.startswith(q_norm):
+                score = 90
+            # 包含匹配
+            elif q in nick:
+                score = 50
+            elif q_norm in nick_norm:
+                score = 40
+            else:
+                continue
+            results.append((score, {
+                "id": p.id, "nickname": p.nickname, "team": p.team,
+                "country": p.country, "role": p.role,
+            }))
+        # 按分数降序, 同分按昵称长度升序(越短越匹配), 再按字母序
+        results.sort(key=lambda r: (-r[0], len(r[1]["nickname"]), r[1]["nickname"].lower()))
+        return [r[1] for r in results[:limit]]
 
     # ---- 房间管理 ----
 
