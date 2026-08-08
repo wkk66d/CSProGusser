@@ -45,6 +45,32 @@
     "is_caster": false
   },
   {
+    "id": "20112",
+    "nickname": "alex666",
+    "full_name": "Alexey Yarmoshchuk",
+    "country": "Ukraine",
+    "country_zh": "乌克兰",
+    "continent": "欧洲",
+    "team": "B8",
+    "age": 25,
+    "major_count": 0,
+    "role": "步枪手",
+    "peak_top": ">20",
+    "past_teams": [
+      "B8",
+      "Betera",
+      "MelBet",
+      "Cossacks",
+      "KJlACCHblE",
+      "HellRaisers",
+      "Gucci Squad",
+      "okura",
+      "DREAM UA",
+      "EC Kyiv"
+    ],
+    "is_caster": false
+  },
+  {
     "id": "7322",
     "nickname": "apEX",
     "full_name": "Dan Madesclaire",
@@ -115,6 +141,30 @@
     "is_caster": false
   },
   {
+    "id": "21348",
+    "nickname": "ArtFr0st",
+    "full_name": "Artem Kharitonov",
+    "country": "Russia",
+    "country_zh": "俄罗斯",
+    "continent": "CIS",
+    "team": "1win",
+    "age": 24,
+    "major_count": 0,
+    "role": "狙击手",
+    "peak_top": ">20",
+    "past_teams": [
+      "1win",
+      "TDK",
+      "BetBoom",
+      "PARIVISION",
+      "AMKAL",
+      "Spirit",
+      "Spirit Academy",
+      "Meta4Pro"
+    ],
+    "is_caster": false
+  },
+  {
     "id": "8735",
     "nickname": "autimatic",
     "full_name": "Timothy Ta",
@@ -135,6 +185,31 @@
       "Complexity",
       "Tempo Storm",
       "Nihilum"
+    ],
+    "is_caster": false
+  },
+  {
+    "id": "16555",
+    "nickname": "Ax1Le",
+    "full_name": "Sergey Rykhtorov",
+    "country": "Russia",
+    "country_zh": "俄罗斯",
+    "continent": "CIS",
+    "team": "1win",
+    "age": 24,
+    "major_count": 0,
+    "role": "步枪手",
+    "peak_top": 4,
+    "past_teams": [
+      "1win",
+      "TDK",
+      "BetBoom",
+      "9BOOMPRO",
+      "Cloud9",
+      "Players",
+      "Gambit",
+      "Gambit Youngsters",
+      "5balls"
     ],
     "is_caster": false
   },
@@ -190,6 +265,30 @@
     "peak_top": ">20",
     "past_teams": [],
     "is_caster": true
+  },
+  {
+    "id": "19235",
+    "nickname": "BELCHONOKK",
+    "full_name": "Andrey Yasinskiy",
+    "country": "Russia",
+    "country_zh": "俄罗斯",
+    "continent": "CIS",
+    "team": "1win",
+    "age": 22,
+    "major_count": 0,
+    "role": "步枪手",
+    "peak_top": ">20",
+    "past_teams": [
+      "1win",
+      "TDK",
+      "PARIVISION",
+      "Aurora",
+      "Nemiga",
+      "CrowCrowd",
+      "Hard Legion",
+      "ETHEREAL"
+    ],
+    "is_caster": false
   },
   {
     "id": "18141",
@@ -629,6 +728,23 @@
     "is_caster": false
   },
   {
+    "id": "23643",
+    "nickname": "esenthial",
+    "full_name": "Dmytro Tsvir",
+    "country": "Ukraine",
+    "country_zh": "乌克兰",
+    "continent": "欧洲",
+    "team": "B8",
+    "age": 20,
+    "major_count": 0,
+    "role": "步枪手",
+    "peak_top": ">20",
+    "past_teams": [
+      "B8"
+    ],
+    "is_caster": false
+  },
+  {
     "id": "29",
     "nickname": "f0rest",
     "full_name": "Patrik Lindberg",
@@ -855,6 +971,28 @@
     "is_caster": false
   },
   {
+    "id": "1775",
+    "nickname": "groove",
+    "full_name": "Konstantin Pikiner",
+    "country": "Russia",
+    "country_zh": "俄罗斯",
+    "continent": "CIS",
+    "team": "1win",
+    "age": 43,
+    "major_count": 0,
+    "role": "教练",
+    "peak_top": ">20",
+    "past_teams": [
+      "1win",
+      "TDK",
+      "Cloud9",
+      "Players",
+      "Gambit",
+      "Gambit Youngsters"
+    ],
+    "is_caster": false
+  },
+  {
     "id": "2757",
     "nickname": "GuardiaN",
     "full_name": "Ladislav Kovács",
@@ -1010,7 +1148,7 @@
     "age": 30,
     "major_count": 0,
     "role": "步枪手",
-    "peak_top": 12,
+    "peak_top": 11,
     "past_teams": [
       "G2",
       "CR4ZY",
@@ -1071,7 +1209,7 @@
     "age": 23,
     "major_count": 0,
     "role": "步枪手",
-    "peak_top": ">20",
+    "peak_top": 15,
     "past_teams": [
       "Astralis",
       "HEROIC",
@@ -1307,6 +1445,31 @@
       "WE GOT GAME",
       "LDLC",
       "VeryGames"
+    ],
+    "is_caster": false
+  },
+  {
+    "id": "22842",
+    "nickname": "kensizor",
+    "full_name": "Artem Kapran",
+    "country": "Ukraine",
+    "country_zh": "乌克兰",
+    "continent": "欧洲",
+    "team": "B8",
+    "age": 20,
+    "major_count": 0,
+    "role": "步枪手",
+    "peak_top": ">20",
+    "past_teams": [
+      "B8",
+      "kONO",
+      "ECF",
+      "ex-ENEIDA",
+      "ENEIDA",
+      "ex-IKLA UA",
+      "IKLA UA",
+      "IKLA",
+      "Iron Branch"
     ],
     "is_caster": false
   },
@@ -2009,6 +2172,33 @@
     "is_caster": false
   },
   {
+    "id": "16921",
+    "nickname": "nafany",
+    "full_name": "Vladislav Gorshkov",
+    "country": "Russia",
+    "country_zh": "俄罗斯",
+    "continent": "CIS",
+    "team": "1win",
+    "age": 25,
+    "major_count": 0,
+    "role": "步枪手",
+    "peak_top": 6,
+    "past_teams": [
+      "1win",
+      "TDK",
+      "AMKAL",
+      "BetBoom",
+      "Cloud9",
+      "Players",
+      "Gambit",
+      "Gambit Youngsters",
+      "Vyalie Pitoni",
+      "FLuffy Gangsters",
+      "team7"
+    ],
+    "is_caster": false
+  },
+  {
     "id": "21972",
     "nickname": "Neityu",
     "full_name": "Ryan Aubry",
@@ -2097,6 +2287,25 @@
       "Metizport",
       "Young Ninjas",
       "flowskola"
+    ],
+    "is_caster": false
+  },
+  {
+    "id": "21708",
+    "nickname": "npl",
+    "full_name": "Andrii Kukharskyi",
+    "country": "Ukraine",
+    "country_zh": "乌克兰",
+    "continent": "欧洲",
+    "team": "B8",
+    "age": 21,
+    "major_count": 0,
+    "role": "步枪手",
+    "peak_top": ">20",
+    "past_teams": [
+      "B8",
+      "Natus Vincere",
+      "NAVI Junior"
     ],
     "is_caster": false
   },
@@ -2347,7 +2556,7 @@
     "age": 26,
     "major_count": 3,
     "role": "步枪手",
-    "peak_top": 2,
+    "peak_top": 3,
     "past_teams": [
       "Vitality",
       "FaZe",
@@ -2445,6 +2654,23 @@
       "Spirit Academy",
       "Insilio",
       "HaMoPeDe"
+    ],
+    "is_caster": false
+  },
+  {
+    "id": "25619",
+    "nickname": "s1zzi",
+    "full_name": "Danylo Vinnyk",
+    "country": "Ukraine",
+    "country_zh": "乌克兰",
+    "continent": "欧洲",
+    "team": "B8",
+    "age": 16,
+    "major_count": 0,
+    "role": "狙击手",
+    "peak_top": ">20",
+    "past_teams": [
+      "B8"
     ],
     "is_caster": false
   },

@@ -40,6 +40,8 @@ AWPER_BY_TEAM = {
     "HEROIC": ["martinezsa"],
     "Lynn Vision": ["z4kr"],
     "100 Thieves": ["device"],
+    "B8": ["s1zzi"],
+    "1win": ["ArtFr0st"],
 }
 
 # 退役/历史选手中的狙击手 (经搜索核实: kennyS, GuardiaN, JW, Skadoodle, s1mple)
@@ -194,6 +196,7 @@ FAMOUS_COACHES = {
     "dastan",   # Major 冠军教练 (Outsiders Rio 2022)
     "sAw",      # G2 知名教练
     "sycrone",  # MOUZ 青训体系教练
+    "groove",   # 1win 教练 (ex-NaVi Major 冠军教练)
     "neo",      # 传奇选手转 Astralis 教练
     "TaZ",      # 传奇选手转 BC.Game 教练
     "gla1ve",   # 4x Major 冠军 IGL 转 100T 教练
