@@ -218,6 +218,24 @@ button.ghost:hover { color: var(--text); border-color: var(--glass-border-strong
   box-shadow: 0 2px 12px rgba(251, 191, 36, 0.4), var(--inner-highlight);
 }
 .seg-btn:disabled { opacity: .45; }
+/* 自定义抢 N 输入框 */
+.score-custom {
+  width: 92px;
+  padding: 10px 12px;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 12px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  color: var(--text);
+  font-weight: 700;
+  backdrop-filter: blur(14px);
+}
+.score-custom::placeholder { color: var(--text-dim); font-weight: 400; }
+/* 隐藏 number 输入框上下箭头, 保持玻璃外观 */
+.score-custom::-webkit-outer-spin-button,
+.score-custom::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.score-custom { -moz-appearance: textfield; appearance: textfield; }
 
 .error-msg { color: #fca5a5; font-size: 13px; min-height: 18px; margin-top: 8px; }
 .conn-error {

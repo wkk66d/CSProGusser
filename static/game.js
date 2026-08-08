@@ -168,13 +168,9 @@ function handleMessage(msg) {
       break;
     case "mode_changed":
       targetScore = msg.target_score;
-      // 同步等待界面分段按钮
-      const segW = $("seg-wait");
-      if (segW) {
-        segW.querySelectorAll(".seg-btn").forEach(b => {
-          b.classList.toggle("active", parseInt(b.dataset.score) === targetScore);
-        });
-      }
+      // 同步等待界面分段按钮 + 自定义输入
+      setSegActive($("seg-wait"), targetScore);
+      setCustomInput("score-custom-wait", targetScore);
       break;
     case "error":
       showGuessFeedback(msg.message, false);
@@ -223,13 +219,9 @@ function renderWaitPlayers() {
       (p.session_id === isHost ? '<span class="host-tag">房主</span>' : "");
     box.appendChild(div);
   });
-  // 同步抢 N 分段按钮
-  const segWait = $("seg-wait");
-  if (segWait) {
-    segWait.querySelectorAll(".seg-btn").forEach(b => {
-      b.classList.toggle("active", parseInt(b.dataset.score) === targetScore);
-    });
-  }
+  // 同步抢 N 分段按钮 + 自定义输入
+  setSegActive($("seg-wait"), targetScore);
+  setCustomInput("score-custom-wait", targetScore);
   $("btn-start").disabled = !isHost;
   $("wait-tip").textContent = isHost ? "你是房主，点击开始游戏" : "等待房主开始游戏...";
 }
@@ -521,6 +513,17 @@ function esc(s) {
   }[c]));
 }
 
+// ---------- 分段按钮工具 ----------
+function setSegActive(group, value) {
+  if (!group) return;
+  group.querySelectorAll(".seg-btn").forEach(b =>
+    b.classList.toggle("active", parseInt(b.dataset.score) === value));
+}
+function setCustomInput(inputId, value) {
+  const input = $(inputId);
+  if (input && value > 4) input.value = String(value);
+}
+
 // ---------- 事件绑定 ----------
 function bindEvents() {
   // 防御: 确保所有元素存在 (避免单个缺失导致全部按钮失效)
@@ -556,20 +559,31 @@ function bindEvents() {
   };
   $("btn-leave").onclick = () => location.reload();
 
-  // 分段按钮组: 抢 N 选择
-  function bindSeg(groupId, onSelect) {
+  // 分段按钮组 + 自定义输入: 抢 N 选择
+  function bindSeg(groupId, inputId, onSelect) {
     const group = $(groupId);
+    const input = $(inputId);
     if (!group) return;
     group.querySelectorAll(".seg-btn").forEach(btn => {
       btn.onclick = () => {
-        group.querySelectorAll(".seg-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        onSelect(parseInt(btn.dataset.score));
+        const v = parseInt(btn.dataset.score);
+        setSegActive(group, v);
+        if (input) input.value = "";
+        onSelect(v);
       };
     });
+    if (input) {
+      input.oninput = () => {
+        const v = parseInt(input.value);
+        if (v >= 1 && v <= 99) {
+          setSegActive(group, 0);  // 自定义模式, 无快捷按钮高亮
+          onSelect(v);
+        }
+      };
+    }
   }
-  bindSeg("seg-create", v => { lobbyScore = v; });
-  bindSeg("seg-wait", v => {
+  bindSeg("seg-create", "score-custom-create", v => { lobbyScore = v; });
+  bindSeg("seg-wait", "score-custom-wait", v => {
     targetScore = v;
     send({ type: "set_mode", target_score: v });
   });

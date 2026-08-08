@@ -242,7 +242,7 @@ class GameEngine:
         code = self.gen_code()
         while code in self.rooms:
             code = self.gen_code()
-        room = Room(code=code, target_score=min(max(target_score, 1), 4))
+        room = Room(code=code, target_score=min(max(target_score, 1), 99))
         sid = self._new_session_id()
         room.players[sid] = PlayerState(session_id=sid, name=host_name or "房主")
         room.host_id = sid

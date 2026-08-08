@@ -177,7 +177,7 @@ async def handle_message(ws: web.WebSocketResponse, conn_state: dict, data: dict
 
     if mtype == "set_mode":
         if sid == room.host_id and not room.round_active:
-            room.target_score = min(max(int(data.get("target_score", 2)), 1), 4)
+            room.target_score = min(max(int(data.get("target_score", 2)), 1), 99)
             await broadcast(room, {"type": "mode_changed", "target_score": room.target_score})
         return
 
