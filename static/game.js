@@ -155,7 +155,10 @@ function handleMessage(msg) {
       break;
     case "game_over":
       gameOver = true;
+      // 对局获胜: 显示醒目的"再来一局"按钮
       $("btn-rematch").classList.remove("hidden");
+      $("btn-rematch").classList.add("rematch-btn");
+      $("round-target-info").classList.add("hidden");
       if (msg.winner === myName) {
         $("round-result-title").textContent = "🏆 你赢了！";
       } else {
@@ -484,6 +487,8 @@ function showGuessFeedback(text, ok) {
 // ---------- 回合结束 ----------
 function showRoundEnd(msg) {
   $("btn-rematch").classList.add("hidden");
+  $("btn-rematch").classList.remove("rematch-btn");
+  $("round-target-info").classList.remove("hidden");
   const title = $("round-result-title");
   if (msg.reason === "correct") {
     const w = playersList.find(p => p.session_id === msg.winner);
